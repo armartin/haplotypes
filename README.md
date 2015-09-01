@@ -18,12 +18,13 @@ A number of phasing options are available, for example BEAGLE, SHAPEIT, and HAPI
 
 #### Convert phased haplotypes to format for inferring shared IBD ####
 Example from HAPI-UR to RefinedIBD for haplotype inference:
-```python hapiur2vcf.py \
+```
+python hapiur2vcf.py \
 --phgeno dbs_1-10_pchip-qc_hardintersect_chr22_3x.phgeno \
 --phind dbs_1-10_pchip-qc_hardintersect_chr22_3x.phind \
 --phsnp dbs_1-10_pchip-qc_hardintersect_chr22_3x.phsnp \
---out dbs_1-10_pchip-qc_hardintersect_chr22_3x.vcf.gz```
-
+--out dbs_1-10_pchip-qc_hardintersect_chr22_3x.vcf.gz
+```
 
 ## 2.) Infer shared haplotypes ###
 There are several software packages available for calling shared haplotypes, including e.g. GERMLINE and BEAGLE (i.e. RefinedIBD)
