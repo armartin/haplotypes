@@ -16,6 +16,15 @@ A number of phasing options are available, for example BEAGLE, SHAPEIT, and HAPI
 * Indels break it. Ref/alt alleles must have a length no longer than 1 character
 * Add genetic position for more reliable inference. If first genetic position is 0.0, it will try to set genetic from physical positions. Instead, set it to a very small number (e.g. 1e-5).
 
+Example to add genetic position from Oxford recombination maps:
+```
+python makeMap.py \
+--chr 22 \
+--genmap genetic_map_chr22_combined_b37.txt \
+--bim myFile.bim \
+--out myFile.newbim
+```
+
 #### Convert phased haplotypes to format for inferring shared IBD ####
 Example from HAPI-UR to RefinedIBD for haplotype inference:
 ```
