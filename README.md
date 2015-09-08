@@ -3,7 +3,7 @@ Haplotypes
 Overall description: Perform haplotype calling, run QC across various metrics, convert files, perform demographic inference, perform IBD mapping
 
 ## Pipeline Map ##
-#### 1.) Phase #####
+##### 1.) Phase #####
 ##### 2.) Infer shared haplotypes #####
 ##### 3.) Perform haplotype QC #####
 ##### 4.) Infer demographic history from haplotype sharing  #####
