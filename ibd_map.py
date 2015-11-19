@@ -64,7 +64,7 @@ for line in pca:
     bin2 = which_bin(pc2_bin,ind_pc2)
     #bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
     #bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
-    pca_bin[bin1][bin2].add(line[2])
+    pca_bin[bin1][bin2].add(line[1])
     ind_pca_bin[line[1]] = [bin1, bin2]
 
 ## function to open files and read in headers
@@ -246,6 +246,7 @@ def run_perms_pca(permutations, mean_perms):
             current_bin = true_bins[my_bin]
             print current_bin
             perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
+            print perm_ind
             while pheno_dict[perm_ind] is None:
                 perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
             #need to make sure we match the same number as in true_phenos, might need to this several times
