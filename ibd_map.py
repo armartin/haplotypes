@@ -54,14 +54,12 @@ for pc1 in range(len(pc1_bin)+1):
         pca_bin[pc1][pc2] = set()
 
 
-print pca_bin
-
 #add inds to pc dict, store bins
 pca = open(args.pca)
 for line in pca:
     line = line.strip().split()
-    ind_pc1 = line[6]
-    ind_pc2 = line[7]
+    ind_pc1 = float(line[6])
+    ind_pc2 = float(line[7])
     bin1 = which_bin(pc1_bin,ind_pc1)
     bin2 = which_bin(pc2_bin,ind_pc2)
     print [ind_pc1, ind_pc2, bin1, bin2]
