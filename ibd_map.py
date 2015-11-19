@@ -84,7 +84,7 @@ def read_header(filename, is_gzipped=False, is_csv=False):
 
 
 ## read in cumulative shared IBD across pairs
-(cum_ibd, cum_ibd_header) = read_header(args.cum_ibd, True)
+#(cum_ibd, cum_ibd_header) = read_header(args.cum_ibd, True)
 perm_bins = np.arange(0, 150, 5) #define step size throughout code
 
 #cum_ibd_pairs = {} # (ind1, ind2) -> cum ibd
