@@ -36,12 +36,6 @@ args = parser.parse_args()
 pc1_bin = np.arange(-5, 6)
 pc2_bin = np.arange(-3.5, 4, 0.5)
 pca_bin = collections.defaultdict(dict)
-ind_pca_bin = {}
-for pc1 in pc1_bin:
-    for pc2 in pc2_bin:
-        pca_bin[pc1][pc2] = set()
-
-print pca_bin
 
 ## identifies bins
 def which_bin(perm_bins, current_value):
@@ -52,6 +46,14 @@ def which_bin(perm_bins, current_value):
     else:
         current_bin = np.nonzero(perm_bins >= current_value)[0][0]
     return current_bin
+
+#finds bins for each pc
+ind_pca_bin = {}
+for pc1 in pc1_bin:
+    for pc2 in pc2_bin:
+        pca_bin[which_bin(pc1_bin, pc1)][which_bin(pc2_bin, pc2)] = set()
+
+print pca_bin
 
 #add inds to pc dict, store bins
 pca = open(args.pca)
