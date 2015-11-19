@@ -41,7 +41,7 @@ for pc1 in pc1_bin:
     for pc2 in pc2_bin:
         pca_bin[pc1][pc2] = set()
 
-#add inds to pc dict
+#add inds to pc dict, store bins
 pca = open(args.pca)
 for line in pca:
     line = line.strip().split()
@@ -80,27 +80,27 @@ def which_bin(perm_bins, current_value):
         current_bin = perm_bins[(perm_bins<=cum_ibd_pair) & (perm_bins >= cum_ibd_pair-5)][0]
     return current_bin
 
-cum_ibd_pairs = {} # (ind1, ind2) -> cum ibd
+#cum_ibd_pairs = {} # (ind1, ind2) -> cum ibd
 #these are backwards shitty names. rename
-cum_ibd_bin = {} # bin -> (ind1, ind2)
-bin_cum_ibd = {} # (ind1, ind2) -> bin, where IDs are finrisk_ids
+#cum_ibd_bin = {} # bin -> (ind1, ind2)
+#bin_cum_ibd = {} # (ind1, ind2) -> bin, where IDs are finrisk_ids
 print 'Reading IBD pairs and making permutation bins [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
 #this currently takes ~4 minutes to read chr22 with 11,639 finns
-for line in cum_ibd:
-    line = line.strip().split()
-    ind1 = line[cum_ibd_header['FR1']]
-    ind2 = line[cum_ibd_header['FR2']]
-    inds = tuple(sorted([ind1, ind2]))
-    cum_ibd_pair = float(line[cum_ibd_header['cum_ibd']])/1e6
-    cum_ibd_pairs[inds] = cum_ibd_pair
-    #find bin
-    current_bin = which_bin(perm_bins, cum_ibd_pair)
-    #put inds in dict of bins
-    if current_bin in cum_ibd_bin:
-        cum_ibd_bin[current_bin].append(inds)
-    else:
-        cum_ibd_bin[current_bin] = [inds]
-    bin_cum_ibd[inds] = current_bin
+#for line in cum_ibd:
+#    line = line.strip().split()
+#    ind1 = line[cum_ibd_header['FR1']]
+#    ind2 = line[cum_ibd_header['FR2']]
+#    inds = tuple(sorted([ind1, ind2]))
+#    cum_ibd_pair = float(line[cum_ibd_header['cum_ibd']])/1e6
+#    cum_ibd_pairs[inds] = cum_ibd_pair
+#    #find bin
+#    current_bin = which_bin(perm_bins, cum_ibd_pair)
+#    #put inds in dict of bins
+#    if current_bin in cum_ibd_bin:
+#        cum_ibd_bin[current_bin].append(inds)
+#    else:
+#        cum_ibd_bin[current_bin] = [inds]
+#    bin_cum_ibd[inds] = current_bin
     #if ibd_bin 
 #TO DO: afterwards, cum_ibd_bin values into np.array for every key for faster sampling
 
@@ -177,7 +177,7 @@ for line in ibd:
         for current_pos in all_pos:
             #pheno1 = pheno_dict[sample_dict[ind1]]
             #pheno2 = pheno_dict[sample_dict[ind2]]
-            if ind1 in pheno_dict and ind2 in pheno_dict and inds in cum_ibd_pairs and pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
+            if ind1 in pheno_dict and ind2 in pheno_dict and pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
                 pos_ibd_inds[current_pos].add(inds)
                 pheno1 = pheno_dict[ind1]
                 pheno2 = pheno_dict[ind2]
@@ -255,7 +255,7 @@ for my_pos in pos_array:
     #true_phenos = pos_ibd_phenos[my_pos] #list of true phenotypes, make sure none and None
     #true_phenos_none = filter(None, true_phenos) #note: if there are zeros they will be removed
     #true_inds = list(pos_ibd_inds[my_pos]) #list of true ind tuples (randomly ordered list but tuples are right)
-    true_inds = zip(**list(pos_ibd_inds[my_pos]))
+    true_inds = reduce(lambda x, y: x.union(y), pos_ibd_inds[my_pos], set())
     #try: this will be complicated because it's grabbing in a string formatted loop. might need to split this out
     true_phenos = []
     for my_ind in list(true_inds):
