@@ -35,7 +35,7 @@ args = parser.parse_args()
 
 pc1_bin = np.arange(-5, 6)
 pc2_bin = np.arange(-3.5, 4, 0.5)
-pca_bin = collection.defaultdict(dict)
+pca_bin = collections.defaultdict(dict)
 ind_pca_bin = {}
 for pc1 in pc1_bin:
     for pc2 in pc2_bin:
