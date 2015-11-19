@@ -168,49 +168,48 @@ ibd = gzip.open(args.ibd)
 print 'Reading IBD pairs [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
 c=0
 for line in ibd:
-    if c < 50000:
-        if c % 10000 == 0:
-            print str(c) + ': [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
-        c += 1
-        line = line.strip().split()
-        ind1 = line[0]
-        ind2 = line[2]
-        inds = tuple(sorted([ind1, ind2]))
-        start = int(line[5])
-        end = int(line[6])
-        #if ind1 not in sample_dict or ind2 not in sample_dict:
-        #    continue #not sure why this isn't working
-        all_pos = pos_array[(pos_array>=start) & (pos_array<=end)] #this is probably most computationally expensive
-        for current_pos in all_pos:
-            #pheno1 = pheno_dict[sample_dict[ind1]]
-            #pheno2 = pheno_dict[sample_dict[ind2]]
-            if ind1 in pheno_dict and ind2 in pheno_dict:
-                if pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
-                    pos_ibd_inds[current_pos].add(inds)
-                    pheno1 = pheno_dict[ind1]
-                    pheno2 = pheno_dict[ind2]
-                    
-                    pos_ibd_phenos[current_pos].append(pheno1)
-                    pos_ibd_phenos[current_pos].append(pheno2)
-            #except KeyError:
-                #continue
-            
-            #deprecate
-            #try: # a bit more computationally expensive but also more powerful for continuous than c/c traits (more permutations)
-            #    #TO DO: add entire tuple
-            #    if sample_dict[ind1] not in pos_added[current_pos]:
-            #        pos_ibd_phenos[current_pos].append(pheno_dict[sample_dict[ind1]])
-            #    if sample_dict[ind2] not in pos_added[current_pos]:
-            #        pos_ibd_phenos[current_pos].append(pheno_dict[sample_dict[ind2]])
-            #    pos_added[current_pos].add(sample_dict[ind1]) #lengths at a given position are different for pos_added and pos_ibd_phenos
-            #    pos_added[current_pos].add(sample_dict[ind2]) #why?
-            #    ####NOTE! Check if I've already added individual to pos_added
-        #if ind2 in ibd_starts[ind1]:
-        #    ibd_starts[ind1][ind2].append(start)
-        #    ibd_ends[ind1][ind2].append(end)
-        #else:
-        #    ibd_starts[ind1][ind2] = [start]
-        #    ibd_ends[ind1][ind2] = [end]
+    if c % 10000 == 0:
+        print str(c) + ': [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
+    c += 1
+    line = line.strip().split()
+    ind1 = line[0]
+    ind2 = line[2]
+    inds = tuple(sorted([ind1, ind2]))
+    start = int(line[5])
+    end = int(line[6])
+    #if ind1 not in sample_dict or ind2 not in sample_dict:
+    #    continue #not sure why this isn't working
+    all_pos = pos_array[(pos_array>=start) & (pos_array<=end)] #this is probably most computationally expensive
+    for current_pos in all_pos:
+        #pheno1 = pheno_dict[sample_dict[ind1]]
+        #pheno2 = pheno_dict[sample_dict[ind2]]
+        if ind1 in pheno_dict and ind2 in pheno_dict:
+            if pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
+                pos_ibd_inds[current_pos].add(inds)
+                pheno1 = pheno_dict[ind1]
+                pheno2 = pheno_dict[ind2]
+                
+                pos_ibd_phenos[current_pos].append(pheno1)
+                pos_ibd_phenos[current_pos].append(pheno2)
+        #except KeyError:
+            #continue
+        
+        #deprecate
+        #try: # a bit more computationally expensive but also more powerful for continuous than c/c traits (more permutations)
+        #    #TO DO: add entire tuple
+        #    if sample_dict[ind1] not in pos_added[current_pos]:
+        #        pos_ibd_phenos[current_pos].append(pheno_dict[sample_dict[ind1]])
+        #    if sample_dict[ind2] not in pos_added[current_pos]:
+        #        pos_ibd_phenos[current_pos].append(pheno_dict[sample_dict[ind2]])
+        #    pos_added[current_pos].add(sample_dict[ind1]) #lengths at a given position are different for pos_added and pos_ibd_phenos
+        #    pos_added[current_pos].add(sample_dict[ind2]) #why?
+        #    ####NOTE! Check if I've already added individual to pos_added
+    #if ind2 in ibd_starts[ind1]:
+    #    ibd_starts[ind1][ind2].append(start)
+    #    ibd_ends[ind1][ind2].append(end)
+    #else:
+    #    ibd_starts[ind1][ind2] = [start]
+    #    ibd_ends[ind1][ind2] = [end]
 
 ## run association and permutations for each site
 #cum_ibd_pairs = {} # (ind1, ind2) -> cum ibd
