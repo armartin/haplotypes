@@ -49,8 +49,8 @@ def which_bin(perm_bins, current_value):
 
 #finds bins for each pc
 ind_pca_bin = {}
-for pc1 in range(len(pc1_bin)):
-    for pc2 in range(len(pc2_bin)):
+for pc1 in range(len(pc1_bin)+1):
+    for pc2 in range(len(pc2_bin)+1):
         pca_bin[pc1][pc2] = set()
 
 
