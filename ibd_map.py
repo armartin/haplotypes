@@ -64,6 +64,7 @@ for line in pca:
     ind_pc2 = line[7]
     bin1 = which_bin(pc1_bin,ind_pc1)
     bin2 = which_bin(pc2_bin,ind_pc2)
+    print [ind_pc1, ind_pc2, bin1, bin2]
     #bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
     #bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
     pca_bin[bin1][bin2].add(line[2])
