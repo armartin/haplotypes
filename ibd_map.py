@@ -41,14 +41,18 @@ for pc1 in pc1_bin:
     for pc2 in pc2_bin:
         pca_bin[pc1][pc2] = set()
 
+print pca_bin
+
 #add inds to pc dict, store bins
 pca = open(args.pca)
 for line in pca:
     line = line.strip().split()
     ind_pc1 = line[6]
     ind_pc2 = line[7]
-    bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
-    bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
+    bin1 = which_bin(pc1_bin,ind_pc1)
+    bin2 = which_bin(pc2_bin,ind_pc2)
+    #bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
+    #bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
     pca_bin[bin1][bin2].add(line[2])
     ind_pca_bin[line[2]] = [bin1, bin2]
 
@@ -84,7 +88,7 @@ def which_bin(perm_bins, current_value):
 #these are backwards shitty names. rename
 #cum_ibd_bin = {} # bin -> (ind1, ind2)
 #bin_cum_ibd = {} # (ind1, ind2) -> bin, where IDs are finrisk_ids
-print 'Reading IBD pairs and making permutation bins [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
+#print 'Reading IBD pairs and making permutation bins [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
 #this currently takes ~4 minutes to read chr22 with 11,639 finns
 #for line in cum_ibd:
 #    line = line.strip().split()
@@ -235,6 +239,7 @@ def run_perms_pca(permutations, mean_perms):
         perm_pheno = []
         for my_bin in range(len(true_bins)):
             current_bin = true_bins[my_bin]
+            print current_bin
             perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
             while pheno_dict[perm_ind] is None:
                 perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
