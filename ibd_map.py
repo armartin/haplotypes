@@ -14,6 +14,7 @@ parser.add_argument('--cum_ibd', default='/homes/amartin/popgen_genotypes/haplot
 parser.add_argument('--pos', default='/homes/amartin/popgen_genotypes/IlluminaCoreExome/Engagex_Egfext_Migraine_FinnishCardio_FTC_projects/shapeit2_haplotypes/Engagex_Egfext_Migraine_FinnishCardio_FTC_chr22.haps.gz')
 parser.add_argument('--pheno', help='this should be the joint maximal set of individuals phenotyped with haplotypes called', default='/homes/amartin/fr_broad/ldl_fr_engagex.pheno')
 #parser.add_argument('--sample', default='/homes/amartin/popgen_genotypes/IlluminaCoreExome/all_birth_wgs.csv')
+parser.add_argument('--pca', default='/homes/amartin/popgen_genotypes/haplotypes/pca/Palotie_Engagex_geno05_maf05_ld50.pcs')
 
 parser.add_argument('--out', default='/fs/projects/popgen_genotypes/haplotypes/ibdseq/ibd/Engagex_Egfext_Migraine_FinnishCardio_FTC_chr22.hapassoc')
 args = parser.parse_args()
@@ -32,8 +33,25 @@ args = parser.parse_args()
     only checking for excess of IBD? anything about haplotype structure?
 """
 
-pca = open('/homes/amartin/popgen_genotypes/haplotypes/pca/pcsPalotie_Engagex_geno05_maf05_ld50')
-fam = open('/homes/amartin/popgen_genotypes/haplotypes/pca/Palotie_Engagex_geno05_maf05_ld50.fam')
+pc1_bin = np.arange(-5, 6)
+pc2_bin = np.arange(-3.5, 4, 0.5)
+pca_bin = collection.defaultdict(dict)
+ind_pca_bin = {}
+for pc1 in pc1_bin:
+    for pc2 in pc2_bin:
+        pca_bin[pc1][pc2] = set()
+
+#add inds to pc dict
+pca = open(args.pca)
+for line in pca:
+    line = line.strip().split()
+    ind_pc1 = line[6]
+    ind_pc2 = line[7]
+    bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
+    bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
+    pca_bin[bin1][bin2].add(line[2])
+    ind_pca_bin[line[2]] = [bin1, bin2]
+
 ## function to open files and read in headers
 def read_header(filename, is_gzipped=False, is_csv=False):
     if is_gzipped == True:
@@ -192,6 +210,7 @@ for line in ibd:
 #cum_ibd_bin = {} # bin -> (ind1, ind2)
 #bin_cum_ibd = {} # (ind1, ind2) -> bin
 
+#instead of permuting on pairs of cumulative IBD, permute on PCA grid
 def run_perms(permutations, mean_perms):
     for perm in range(permutations):
         perm_inds = []
@@ -210,6 +229,22 @@ def run_perms(permutations, mean_perms):
         mean_perms.append(np.mean(perm_pheno))
     return mean_perms
 
+def run_perms_pca(permutations, mean_perms):
+    for perm in range(permutations):
+        perm_inds = []
+        perm_pheno = []
+        for my_bin in range(len(true_bins)):
+            current_bin = true_bins[my_bin]
+            perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
+            while pheno_dict[perm_ind] is None:
+                perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
+            #need to make sure we match the same number as in true_phenos, might need to this several times
+            #while perm_ind_pair[0] not in sample_dict or perm_ind_pair[1] not in sample_dict:
+            #perm_pheno.append(pheno_dict[sample_dict[perm_ind_pair[0]]])
+            #perm_pheno.append(pheno_dict[sample_dict[perm_ind_pair[1]]])
+            perm_pheno.append(pheno_dict[perm_ind])
+        mean_perms.append(np.mean(perm_pheno))
+    return mean_perms
 
 
 print 'Running permutations! [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
@@ -217,16 +252,21 @@ permutations=100
 out = open(args.out, 'w')
 out.write('\t'.join(['pos', 'fdr', 'num_pairs_inds']) + '\n')
 for my_pos in pos_array:
-    true_phenos = pos_ibd_phenos[my_pos] #list of true phenotypes, make sure none and None
+    #true_phenos = pos_ibd_phenos[my_pos] #list of true phenotypes, make sure none and None
     #true_phenos_none = filter(None, true_phenos) #note: if there are zeros they will be removed
-    true_inds = list(pos_ibd_inds[my_pos]) #list of true ind tuples (randomly ordered list but tuples are right)
+    #true_inds = list(pos_ibd_inds[my_pos]) #list of true ind tuples (randomly ordered list but tuples are right)
+    true_inds = zip(**list(pos_ibd_inds[my_pos]))
     #try: this will be complicated because it's grabbing in a string formatted loop. might need to split this out
+    true_phenos = []
+    for my_ind in list(true_inds):
+        true_phenos.append(pheno_dict[my_ind])
+    
     true_bins = []
     #for my_inds in (sample_dict[true_inds[0]], sample_dict[true_inds[1]]): #list of bins (randomly ordered)
     
     
     for my_inds in true_inds: #list of bins (randomly ordered)
-        true_bins.append(bin_cum_ibd[my_inds])
+        true_bins.append(pca_bin[my_inds])
     
     #if my_pos == 16855618:
     #    print true_phenos
@@ -250,7 +290,7 @@ for my_pos in pos_array:
     currently multiplying by 2 since there are 2 ways a distribution can outly the permuted
     """
     mean_perms = []
-    mean_perms = run_perms(permutations, mean_perms)
+    mean_perms = run_perms_pca(permutations, mean_perms)
     #print mean_perms
     #if None in mean_perms:
     #    print 'mean_perms has None'
@@ -260,7 +300,7 @@ for my_pos in pos_array:
               float(sum(np.mean(true_phenos)<mean_perms))/(len(mean_perms)+1))
     if fdr < 0.05:
         print 'strong assoc'
-        mean_perms = run_perms(900, mean_perms)
+        mean_perms = run_perms_pca(900, mean_perms)
         fdr = 2*min(float(sum(np.mean(true_phenos)>mean_perms))/(len(mean_perms)+1),
               float(sum(np.mean(true_phenos)<mean_perms))/(len(mean_perms)+1))
         print [my_pos, fdr, len(true_inds)]
