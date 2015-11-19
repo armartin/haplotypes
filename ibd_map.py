@@ -276,7 +276,7 @@ for my_pos in pos_array:
     
     
     for my_inds in true_inds: #list of bins (randomly ordered)
-        true_bins.append(pca_bin[my_inds])
+        true_bins.append(ind_pca_bin[my_inds])
     
     #if my_pos == 16855618:
     #    print true_phenos
