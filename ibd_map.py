@@ -184,13 +184,14 @@ for line in ibd:
         for current_pos in all_pos:
             #pheno1 = pheno_dict[sample_dict[ind1]]
             #pheno2 = pheno_dict[sample_dict[ind2]]
-            if ind1 in pheno_dict and ind2 in pheno_dict and pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
-                pos_ibd_inds[current_pos].add(inds)
-                pheno1 = pheno_dict[ind1]
-                pheno2 = pheno_dict[ind2]
-                
-                pos_ibd_phenos[current_pos].append(pheno1)
-                pos_ibd_phenos[current_pos].append(pheno2)
+            if ind1 in pheno_dict and ind2 in pheno_dict:
+                if pheno_dict[ind1] is not None and pheno_dict[ind2] is not None: #subset inds and then wouldn't have to deal with this
+                    pos_ibd_inds[current_pos].add(inds)
+                    pheno1 = pheno_dict[ind1]
+                    pheno2 = pheno_dict[ind2]
+                    
+                    pos_ibd_phenos[current_pos].append(pheno1)
+                    pos_ibd_phenos[current_pos].append(pheno2)
             #except KeyError:
                 #continue
             
@@ -240,6 +241,7 @@ def run_perms_pca(permutations, mean_perms):
     for perm in range(permutations):
         perm_inds = []
         perm_pheno = []
+        print true_bins
         for my_bin in range(len(true_bins)):
             current_bin = true_bins[my_bin]
             print current_bin
