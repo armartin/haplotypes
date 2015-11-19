@@ -43,6 +43,16 @@ for pc1 in pc1_bin:
 
 print pca_bin
 
+## identifies bins
+def which_bin(perm_bins, current_value):
+    if current_value > perm_bins[-1]:
+        current_bin = len(perm_bins)
+    elif current_value < perm_bins[0]:
+        current_bin = 0
+    else:
+        current_bin = np.nonzero(perm_bins >= current_value)[0][0]
+    return current_bin
+
 #add inds to pc dict, store bins
 pca = open(args.pca)
 for line in pca:
@@ -75,14 +85,6 @@ def read_header(filename, is_gzipped=False, is_csv=False):
 ## read in cumulative shared IBD across pairs
 (cum_ibd, cum_ibd_header) = read_header(args.cum_ibd, True)
 perm_bins = np.arange(0, 150, 5) #define step size throughout code
-
-## identifies bins given cumulative pairwise ibd
-def which_bin(perm_bins, current_value):
-    if cum_ibd_pair > perm_bins[-1]:
-        current_bin = perm_bins[-1]
-    else:
-        current_bin = perm_bins[(perm_bins<=cum_ibd_pair) & (perm_bins >= cum_ibd_pair-5)][0]
-    return current_bin
 
 #cum_ibd_pairs = {} # (ind1, ind2) -> cum ibd
 #these are backwards shitty names. rename
