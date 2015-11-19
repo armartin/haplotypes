@@ -65,7 +65,7 @@ for line in pca:
     #bin1 = pc1_bin[(ind_pc1>=pc1_bin) & (ind_pc1<=pc1_bin)]
     #bin2 = pc2_bin[(ind_pc2>=pc2_bin) & (ind_pc2<=pc2_bin)]
     pca_bin[bin1][bin2].add(line[2])
-    ind_pca_bin[line[2]] = [bin1, bin2]
+    ind_pca_bin[line[1]] = [bin1, bin2]
 
 ## function to open files and read in headers
 def read_header(filename, is_gzipped=False, is_csv=False):
