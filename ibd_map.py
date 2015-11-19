@@ -241,12 +241,9 @@ def run_perms_pca(permutations, mean_perms):
     for perm in range(permutations):
         perm_inds = []
         perm_pheno = []
-        print true_bins
         for my_bin in range(len(true_bins)):
             current_bin = true_bins[my_bin]
-            print current_bin
             perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
-            print perm_ind
             while perm_ind not in pheno_dict or pheno_dict[perm_ind] is None:
                 perm_ind = random.choice(list(pca_bin[current_bin[0]][current_bin[1]]))
             #need to make sure we match the same number as in true_phenos, might need to this several times
