@@ -32,10 +32,14 @@ print [chr_min, chr_max]
 
 windows1 = np.arange(chr_min, chr_max, args.window_size)
 windows2 = np.arange(chr_min+args.window_overlap, chr_max+args.window_overlap, args.window_size)
+if windows2[-1] < chr_max:
+    windows2[-1] = chr_max #make sure all SNPs make it in at least one window
 
 print windows1
 print windows2
 
+out = open(args.out, 'w')
 for i in range(len(windows1)-1):
-    print chr + ':' + str(int(windows1[i])) + '-' + str(int(windows1[i+1]))
-    print chr + ':' + str(int(windows2[i])) + '-' + str(int(windows2[i+1]))
+    out.write(chr + ':' + str(int(windows1[i])) + '-' + str(int(windows1[i+1])) + '\n')
+    out.write(chr + ':' + str(int(windows2[i])) + '-' + str(int(windows2[i+1])) + '\n')
+out.close()
