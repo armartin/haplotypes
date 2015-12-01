@@ -22,6 +22,7 @@ for line in vcf:
     elif line.startswith('#CHROM'):
         vcf_header = line.split()
     else:
+        line = line.split()
         chr_min = min(chr_min, int(line[1]))
         chr_max = max(chr_max, int(line[1]))
 
