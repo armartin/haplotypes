@@ -1,5 +1,6 @@
 import argparse
 import gzip
+import numpy as np
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--vcf')
@@ -25,5 +26,16 @@ for line in vcf:
         line = line.split()
         chr_min = min(chr_min, int(line[1]))
         chr_max = max(chr_max, int(line[1]))
+        chr = line[0]
 
 print [chr_min, chr_max]
+
+windows1 = np.arange(chr_min, chr_max, args.window_size)
+windows2 = np.arange(chr_min+args.window_overlap, chr_max, args.window_size)
+
+print windows1
+print windows2
+
+for i in range(len(windows1)-1):
+    print chr + ':' + str(windows1[i]) + '-' + str(windows1[i+1])
+    print chr + ':' + str(windows2[i]) + '-' + str(windows2[i+1])
