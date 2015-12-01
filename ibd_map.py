@@ -140,8 +140,8 @@ for line in pheno:
     pheno_inds.add(line[0])
 inds = sorted(pheno_dict.keys())
 phenos = sorted(pheno_dict.values())
-print inds[0:10]
-print phenos[len(phenos)-10:len(phenos)]
+#print inds[0:10]
+#print phenos[len(phenos)-10:len(phenos)]
 ind_dict = {}
 for ind in range(len(inds)):
     ind_dict[inds[ind]] = ind
