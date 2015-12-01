@@ -31,11 +31,11 @@ for line in vcf:
 print [chr_min, chr_max]
 
 windows1 = np.arange(chr_min, chr_max, args.window_size)
-windows2 = np.arange(chr_min+args.window_overlap, chr_max, args.window_size)
+windows2 = np.arange(chr_min+args.window_overlap, chr_max+args.window_overlap, args.window_size)
 
 print windows1
 print windows2
 
 for i in range(len(windows1)-1):
-    print chr + ':' + str(windows1[i]) + '-' + str(windows1[i+1])
-    print chr + ':' + str(windows2[i]) + '-' + str(windows2[i+1])
+    print chr + ':' + str(int(windows1[i])) + '-' + str(int(windows1[i+1]))
+    print chr + ':' + str(int(windows2[i])) + '-' + str(int(windows2[i+1]))
