@@ -2,13 +2,6 @@ __author__ = 'armartin'
 import argparse
 import sys
 
-"""
-parser.add_argument('--chr', default='22') #will replace chr[\d] with chr[chr]
-parser.add_argument('--genmap')
-parser.add_argument('--bim')
-parser.add_argument('--map_bim', default='bim') #read/write map/bim files
-parser.add_argument('--out')
-"""
 def main(args):
     genmap = open(args.genmap)
     bim = open(args.bim)
@@ -20,12 +13,16 @@ def main(args):
         my_map = open(args.bim.replace('bim', 'map'), 'w')
     
     for snp in full_map(chr, genmap, bim, map_bim):
-        my_map.write('\t'.join(map(str, snp)) + '\n')
+        if map_bim != 'map':
+            to_write = [snp['chr'], snp['rsid'], snp['gen_pos'], snp['phys_pos'], snp['a0'], snp['a1']]
+        else:
+            to_write = [snp['chr'], snp['rsid'], snp['gen_pos'], snp['phys_pos']]
+        my_map.write('\t'.join(map(str, to_write)) + '\n')
     my_map.close()
     bim.close()
     genmap.close()
 
-def full_map(chr, genmap, bim, map_bim=None):
+def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim and haps can't both have non-none values
     """
     Iterator that returns list including interpolated genetic positions
     [chr, rsid, float(interpolate), int(phys_pos), a0, a1]
@@ -45,12 +42,19 @@ def full_map(chr, genmap, bim, map_bim=None):
     
     for bim_line in bim:
         bim_line = bim_line.strip().split()
-        (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5])
+        if haps is not None:
+            (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
+        else:
+            (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
         while phys_pos < start_bp:
             proportion = (float(phys_pos) * float(start_cM)) / float(start_bp)
             yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
             bim_line = bim.readline().strip().split()
-            (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5])
+            if haps is not None:
+                (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
+            else:
+                (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
+            
         (current_args[3], current_args[0], current_args[-2], current_args[-1]) = (rsid, phys_pos, a0, a1)
         while True:
             #check all conditions, break if reached the end of genetic map or bim file changed but genetic map file didn't
@@ -80,6 +84,11 @@ def check_conditions(all_args):
     returns same arguments that will be present next iteration and potentially what it will write - None otherwise
     """
     phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1 = all_args
+    to_write = {'chr': chr,
+                    'rsid': rsid,
+                    'phys_pos': phys_pos,
+                    'a0': a0,
+                    'a1': a1}
     if phys_pos > end_bp:
         #Criteria 1 - genotypes ahead of genetic map
         while phys_pos > end_bp:
@@ -87,7 +96,8 @@ def check_conditions(all_args):
             end = genmap.readline().strip().split() 
             if end == []:
                 proportion = (phys_pos * end_cM) / end_bp
-                to_write = [chr, rsid, str(proportion), phys_pos, a0, a1]
+                #to_write = [chr, rsid, str(proportion), phys_pos, a0, a1]
+                to_write['gen_pos'] = phys_pos
                 return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
             else:
                 (end_bp, end_cM) = (int(end[0]), float(end[2]))
@@ -95,14 +105,17 @@ def check_conditions(all_args):
     else:
         #Criteria 2 - genotypes not ahead of genetic map
         if phys_pos == start_bp:
-            to_write = [chr, rsid, start_cM, phys_pos, a0, a1]
+            #to_write = [chr, rsid, start_cM, phys_pos, a0, a1]
+            to_write['gen_pos'] = start_cM
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         elif phys_pos == end_bp:
-            to_write = [chr, rsid, end_cM, phys_pos, a0, a1]
+            #to_write = [chr, rsid, end_cM, phys_pos, a0, a1]
+            to_write['gen_pos'] = end_cM
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         elif phys_pos > start_bp and phys_pos < end_bp:
             interpolate = (phys_pos - start_bp)*(end_cM - start_cM)/(end_bp - start_bp) + start_cM
-            to_write = [chr, rsid, interpolate, phys_pos, a0, a1]
+            #to_write = [chr, rsid, interpolate, phys_pos, a0, a1]
+            to_write['gen_pos'] = interpolate
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         else:
             print 'Criteria 2 - Something wrong when genetic data is before physical positions'
