@@ -77,8 +77,8 @@ def final_checks(write_vars):
     """
     fix 0 genetic positions so hapi-ur doesn't crash
     """
-    if float(write_vars[2]) < 1e-4:
-        write_vars[2] = 1e-4
+    if float(write_vars['gen_pos']) < 1e-4:
+        write_vars['gen_pos'] = 1e-4
     return(write_vars)
 
 def check_conditions(all_args):
