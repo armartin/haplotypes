@@ -52,7 +52,9 @@ def full_map(chr, genmap, bim, map_bim):
         print 'paragraph 1'
         current_args = [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
         while True:
+            print current_args
             current_args, to_write = check_conditions(current_args)
+            
             if to_write is not None:
                 yield final_checks(to_write)
             if current_args is None:
