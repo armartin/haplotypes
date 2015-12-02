@@ -39,7 +39,7 @@ def full_map(chr, genmap, bim, map_bim):
     
     print chr
     
-    
+    current_args = [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
     
     for bim_line in bim:
         bim_line = bim_line.strip().split()
@@ -49,7 +49,7 @@ def full_map(chr, genmap, bim, map_bim):
             yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
             bim_line = bim.readline().strip().split()
             (rsid, phys_pos, a0, a1) = (bim_line[1], bim_line[3], bim_line[4], bim_line[5])
-        current_args = [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
+        (current_args[3], current_args[0], current_args[-2], current_args[-1]) = (rsid, phys_pos, a0, a1)
         while True:
             print current_args
             new_args, to_write = check_conditions(current_args)
