@@ -63,7 +63,7 @@ inds.readline()
 
 for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #print variant
-    out_map.write('\t'.join(map(str, [variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']])))
+    out_map.write('\t'.join(map(str, [variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']])) + '\n')
     #out_ped.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
     #these are what are returned from full_map
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
