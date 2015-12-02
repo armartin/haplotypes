@@ -63,6 +63,8 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
             new_args, to_write = check_conditions(current_args)
             
             if to_write is not None:
+                if haps is not None:
+                    to_write['haps'] = other
                 yield final_checks(to_write)
                 break
             if new_args is None:

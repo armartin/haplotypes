@@ -54,7 +54,16 @@ genmap = open(args.recomb_map)
 #    elif line.startswith('#CHROM'):
 #        vcf_header = line.split()
 
+out_map = open(args.out + '.map', 'w')
+out_ped = open(args.out + '.ped', 'w')
+inds = open(args.sample)
+inds.readline()
+inds.readline()
+###NOTE: need to transpose whole haps file to write ped format
+
 for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     print variant
+    out_map.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
+    out_ped.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
     #these are what are returned from full_map
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
