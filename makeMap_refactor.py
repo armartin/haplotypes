@@ -51,7 +51,7 @@ def full_map(chr, genmap, bim, map_bim):
             (rsid, phys_pos, a0, a1) = (bim_line[1], bim_line[3], bim_line[4], bim_line[5])
         current_args = [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
         while True:
-            #print current_args
+            print current_args
             current_args, to_write = check_conditions(current_args)
             
             if to_write is not None:
@@ -85,8 +85,6 @@ def check_conditions(all_args):
                 return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
             else:
                 (end_bp, end_cM) = (end[0], end[2])
-                print end
-        print [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
         return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], None)
     else:
         #Criteria 2 - genotypes not ahead of genetic map
