@@ -79,13 +79,13 @@ def check_conditions(all_args):
     returns same arguments that will be present next iteration and potentially what it will write - None otherwise
     """
     phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1 = all_args
-    if int(phys_pos) > int(end_bp):
+    if phys_pos > end_bp:
         #Criteria 1 - genotypes ahead of genetic map
-        while int(phys_pos) > int(end_bp):
+        while phys_pos > end_bp:
             (start_bp, start_cM) = (end_bp, end_cM)
             end = genmap.readline().strip().split() 
             if end == []:
-                proportion = (float(phys_pos) * float(end_cM)) / float(end_bp)
+                proportion = (phys_pos * end_cM) / end_bp
                 to_write = [chr, rsid, str(proportion), phys_pos, a0, a1]
                 return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
             else:
@@ -94,14 +94,14 @@ def check_conditions(all_args):
     else:
         #Criteria 2 - genotypes not ahead of genetic map
         if phys_pos == start_bp:
-            to_write = [chr, rsid, str(start_cM), phys_pos, a0, a1]
+            to_write = [chr, rsid, start_cM, phys_pos, a0, a1]
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         elif phys_pos == end_bp:
-            to_write = [chr, rsid, str(end_cM), phys_pos, a0, a1]
+            to_write = [chr, rsid, end_cM, phys_pos, a0, a1]
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
-        elif int(phys_pos) > int(start_bp) and int(phys_pos) < int(end_bp):
-            interpolate = float((int(phys_pos) - int(start_bp))*(float(end_cM) - float(start_cM)))/(int(end_bp) - int(start_bp)) + float(start_cM)
-            to_write = [chr, rsid, str(interpolate), phys_pos, a0, a1]
+        elif phys_pos > start_bp and phys_pos < end_bp:
+            interpolate = (phys_pos - start_bp)*(end_cM - start_cM)/(end_bp - start_bp) + start_cM
+            to_write = [chr, rsid, interpolate, phys_pos, a0, a1]
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         else:
             print 'Criteria 2 - Something wrong when genetic data is before physical positions'
