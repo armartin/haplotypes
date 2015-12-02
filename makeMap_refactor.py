@@ -85,6 +85,8 @@ def check_conditions(all_args):
                 return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
             else:
                 (end_bp, end_cM) = (end[0], end[2])
+                print end
+        print [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
         return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], None)
     else:
         #Criteria 2 - genotypes not ahead of genetic map
