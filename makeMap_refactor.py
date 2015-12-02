@@ -54,6 +54,8 @@ def full_map(chr, genmap, bim, map_bim):
             current_args, to_write = check_conditions(current_args)
             if to_write is not None:
                 yield final_checks(to_write)
+            if current_args is None:
+                break
 
 #don't start genetic positions quite at 0 because this throws off program (e.g. hapi-ur) assumptions
 ## return genetic positions for every element
@@ -95,7 +97,8 @@ def check_conditions(all_args):
             return ([phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1], to_write)
         else:
             print 'Criteria 2 - Something wrong when genetic data is before physical positions'
-            
+        return (None, None)
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parse some args')
     parser.add_argument('--chr', default='22') #will replace chr[\d] with chr[chr]
