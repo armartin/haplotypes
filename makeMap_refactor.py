@@ -39,7 +39,7 @@ def full_map(chr, genmap, bim, map_bim):
     
     print chr
     
-    current_args = [phys_pos, start_bp, end_bp, rsid, bim, start_cM, end_cM, genmap, chr, a0, a1]
+    current_args = [None, start_bp, end_bp, None, bim, start_cM, end_cM, genmap, chr, None, None]
     
     for bim_line in bim:
         bim_line = bim_line.strip().split()
