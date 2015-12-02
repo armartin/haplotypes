@@ -25,10 +25,11 @@ def main(args):
     bim.close()
     genmap.close()
 
-def full_map(chr, genmap, bim, map_bim):
+def full_map(chr, genmap, bim, map_bim=None):
     """
     Iterator that returns list including interpolated genetic positions
-    [chr, rsid, str(interpolate), phys_pos, a0, a1]
+    [chr, rsid, float(interpolate), int(phys_pos), a0, a1]
+    to do: set map_bim and write map output as well
     """
     genmap.readline()
     #position COMBINED_rate(cM/Mb) Genetic_Map(cM)
