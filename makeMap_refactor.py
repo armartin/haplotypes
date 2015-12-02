@@ -13,6 +13,7 @@ def main(args):
     genmap = open(args.genmap)
     bim = open(args.bim)
     chr = args.chr
+    map_bim = args.map_bim
     if args.out is not None:
         my_map = open(args.out, 'w')
     else:
