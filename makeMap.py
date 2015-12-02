@@ -44,15 +44,17 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
         bim_line = bim_line.strip().split()
         if haps is not None:
             (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
+            other = bim_line[5:len(bim_line)]
         else:
             (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
         while phys_pos < start_bp:
             proportion = (float(phys_pos) * float(start_cM)) / float(start_bp)
-            yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
             bim_line = bim.readline().strip().split()
             if haps is not None:
+                yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other])
                 (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
             else:
+                yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
                 (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
             
         (current_args[3], current_args[0], current_args[-2], current_args[-1]) = (rsid, phys_pos, a0, a1)
