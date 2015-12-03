@@ -75,10 +75,10 @@ for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
 
 flip_haps = map(list, zip(*full_haps))
-print len(flip_haps)
+#print len(flip_haps)
 c = 0
 for ind in inds:
-    print len(flip_haps[c])
+    #print len(flip_haps[c])
     ind = ind.strip().split()
     out_ped.write(ind[0] + ' ' + ind[1] + ' 0 0 0 -9 ')
     out_ped.write(' '.join(flip_haps[c]) + '\n')
