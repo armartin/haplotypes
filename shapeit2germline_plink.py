@@ -61,9 +61,14 @@ inds.readline()
 inds.readline()
 ###NOTE: need to transpose whole haps file to write ped format
 
+full_haps = []
 for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #print variant
     out_map.write('\t'.join(map(str, [variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']])) + '\n')
+    my_haps = variant['haps']
+    print type(my_haps)
+    print my_haps[0:10]
+    full_haps.extend(my_haps)
     #out_ped.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
     #these are what are returned from full_map
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
