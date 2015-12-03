@@ -72,4 +72,14 @@ for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #out_ped.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
     #these are what are returned from full_map
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
+
+flip_haps = map(list, zip(*full_haps))
+c = 0
+for ind in inds:
+    ind = ind.strip().split()
+    out_ped.write(ind[0] + '\t' + ind[1] + '\t0\t\0\t0\t-9\t')
+    out_ped.write('\t'.join(flip_haps[c]) + '\n')
+    c += 1
+    
 out_map.close()
+out_ped.close()
