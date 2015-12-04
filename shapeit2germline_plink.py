@@ -80,7 +80,7 @@ c = 0
 for ind in inds:
     #print len(flip_haps[c])
     ind = ind.strip().split()
-    out_ped.write(ind[0] + ' ' + ind[1] + ' 0 0 0 -9 ')
+    out_ped.write('0 ' + ind[1] + ' 0 0 0 2 ')
     out_ped.write(' '.join(flip_haps[c]) + '\n')
     c += 1
     
