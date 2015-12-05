@@ -61,7 +61,8 @@ inds.readline()
 inds.readline()
 ###NOTE: need to transpose whole haps file to write ped format
 
-full_haps = []
+haps_a = []
+haps_b = []
 for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #print variant
     out_map.write('\t'.join(map(str, [variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']])) + '\n')
@@ -69,19 +70,40 @@ for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     print len(my_haps)
     #print type(my_haps)
     #print my_haps[0:10]
-    full_haps.append(my_haps)
+    haps_a.append(my_haps[0::2])
+    haps_b.append(my_haps[1::2])
     #out_ped.write('\t'.join([variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']]))
     #these are what are returned from full_map
     #[chr, rsid, str(proportion), phys_pos, a0, a1]
 
-flip_haps = map(list, zip(*full_haps))
+def roundrobin(*iterables):
+    "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
+    # Recipe credited to George Sakkis
+    pending = len(iterables)
+    nexts = itertools.cycle(iter(it).next for it in iterables)
+    while pending:
+        try:
+            for next in nexts:
+                yield next()
+        except StopIteration:
+            pending -= 1
+            nexts = itertools.cycle(itertools.islice(nexts, pending))
+
+flip_a = map(list, zip(*haps_a))
+flip_b = map(list, zip(*haps_b))
+combined_haps = zip(flip_a, flip_b)
+print len(flip_a)
 #print len(flip_haps)
 c = 0
 for ind in inds:
+    #print len(flip_a[c])
+    hap_a = combined_haps[c][0]
+    hap_b = combined_haps[c][1]
+    final_haps = list(roundrobin(hap_a, hap_b))
     #print len(flip_haps[c])
     ind = ind.strip().split()
     out_ped.write(ind[0] + ' ' + ind[1] + ' 0 0 0 -9 ')
-    out_ped.write(' '.join(flip_haps[c]) + '\n')
+    out_ped.write(' '.join(final_haps) + '\n')
     c += 1
     
 out_map.close()
