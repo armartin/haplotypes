@@ -31,6 +31,7 @@ egfext5401346 egfext5401346 0
 import argparse
 import gzip
 import makeMap
+import itertools
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--haps')
