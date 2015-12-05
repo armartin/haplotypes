@@ -67,7 +67,7 @@ for variant in makeMap.full_map(args.chr, genmap, haps, None, 'haps'):
     #print variant
     out_map.write('\t'.join(map(str, [variant['chr'], variant['rsid'], variant['gen_pos'], variant['phys_pos']])) + '\n')
     my_haps = map(lambda x: str(int(x) + 1), variant['haps'])
-    print len(my_haps)
+    #print len(my_haps)
     #print type(my_haps)
     #print my_haps[0:10]
     haps_a.append(my_haps[0::2])
