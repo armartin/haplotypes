@@ -9,9 +9,10 @@ def main(args):
     map_bim = args.map_bim
     if args.out is not None:
         my_map = open(args.out, 'w')
-    else:
+    elif map_bim != 'bim':
         my_map = open(args.bim.replace('bim', 'map'), 'w')
-    
+    else:
+        my_map = open(args.bim + '2', 'w')
     for snp in full_map(chr, genmap, bim, map_bim):
         if map_bim != 'map':
             to_write = [snp['chr'], snp['rsid'], snp['gen_pos'], snp['phys_pos'], snp['a0'], snp['a1']]
