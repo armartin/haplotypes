@@ -90,6 +90,8 @@ combined_haps = zip(flip_a, flip_b)
 c = 0
 for ind in inds:
     ind = ind.strip().split()
+    #print combined_haps
+    print combined_haps[c]
     hap_a = combined_haps[c][0]
     hap_b = combined_haps[c][1]
     final_haps = list(roundrobin(hap_a, hap_b))
