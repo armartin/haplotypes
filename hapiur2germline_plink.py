@@ -97,4 +97,4 @@ for ind in inds:
     out_ped.write(' '.join(ind) + '\t')
     out_ped.write(' '.join(final_haps) + '\n')
     c += 1
-out.close()
+out_ped.close()
