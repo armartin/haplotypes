@@ -86,40 +86,15 @@ def roundrobin(*iterables):
 
 flip_a = map(list, zip(*haps_a))
 flip_b = map(list, zip(*haps_b))
-print haps_a
-print haps_b
-print flip_a
-print flip_b
-print len(flip_a)
-print type(flip_a)
-print len(flip_b)
-print type(flip_b)
-print
-print len(flip_a[0])
-print type(flip_a[0])
-print len(flip_b[0])
-print type(flip_b[0])
-print
-print len(flip_a[0][0])
-print type(flip_a[0][0])
-print len(flip_b[0][0])
-print type(flip_b[0][0])
-print
-print flip_a[0][0][0:10]
-print flip_b[0][0][0:10]
 combined_haps = zip(flip_a, flip_b)
-print combined_haps
 c = 0
 for ind in inds:
     ind = ind.strip().split()
-    #print combined_haps
-    #print combined_haps[c]
     hap_a = combined_haps[c][0]
     hap_b = combined_haps[c][1]
     final_haps = list(roundrobin(hap_a, hap_b))
-    print final_haps
-#    ind = ind.strip().split()
-#    out_ped.write(' '.join(ind) + '\t')
-#    out_ped.write(' '.join(final_haps) + '\n')
+    ind = ind.strip().split()
+    out_ped.write(' '.join(ind) + '\t')
+    out_ped.write(' '.join(final_haps) + '\n')
     c += 1
 out_ped.close()
