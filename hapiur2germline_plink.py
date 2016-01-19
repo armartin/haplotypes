@@ -65,8 +65,9 @@ out_map.close()
 haps_a = []
 haps_b = []
 for line in phgeno:
-    line = line.strip().split()
-    my_haps = map(lambda x: str(int(x) + 1), list(line))
+    line = list(line.strip().split())
+    print line
+    my_haps = map(lambda x: str(int(x) + 1))
     print my_haps
     haps_a.append(my_haps[0::2])
     haps_b.append(my_haps[1::2])
