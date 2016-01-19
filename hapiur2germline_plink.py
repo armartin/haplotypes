@@ -66,9 +66,7 @@ haps_a = []
 haps_b = []
 for line in phgeno:
     line = list(line.strip())
-    print line
     my_haps = map(lambda x: str(int(x) + 1), line)
-    print my_haps
     haps_a.append(my_haps[0::2])
     haps_b.append(my_haps[1::2])
 
@@ -88,6 +86,8 @@ def roundrobin(*iterables):
 
 flip_a = map(list, zip(*haps_a))
 flip_b = map(list, zip(*haps_b))
+print haps_a
+print haps_b
 print flip_a
 print flip_b
 print len(flip_a)
