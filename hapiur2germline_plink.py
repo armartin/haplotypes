@@ -88,12 +88,18 @@ flip_a = map(list, zip(*haps_a))
 flip_b = map(list, zip(*haps_b))
 print len(flip_a)
 print type(flip_a)
+print len(flip_b)
+print type(flip_b)
 print
 print len(flip_a[0])
 print type(flip_a[0])
+print len(flip_b[0])
+print type(flip_b[0])
 print
 print len(flip_a[0][0])
 print type(flip_a[0][0])
+print len(flip_b[0][0])
+print type(flip_b[0][0])
 print
 print flip_a[0][0][0:10]
 print flip_b[0][0][0:10]
