@@ -107,8 +107,8 @@ print type(flip_b[0][0])
 print
 print flip_a[0][0][0:10]
 print flip_b[0][0][0:10]
-combined_haps = zip(flip_a[0][0], flip_b[0][0])
-print len(combined_haps)
+combined_haps = zip(flip_a, flip_b)
+print combined_haps
 c = 0
 for ind in inds:
     ind = ind.strip().split()
