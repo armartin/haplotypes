@@ -88,7 +88,6 @@ flip_a = map(list, zip(*haps_a))
 flip_b = map(list, zip(*haps_b))
 print len(flip_a)
 print len(flip_a[0])
-print len(flip_a[1])
 combined_haps = zip(flip_a[0], flip_b[0])
 c = 0
 for ind in inds:
