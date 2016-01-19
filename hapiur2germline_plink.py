@@ -88,7 +88,9 @@ flip_a = map(list, zip(*haps_a))
 flip_b = map(list, zip(*haps_b))
 print len(flip_a)
 print len(flip_a[0])
-combined_haps = zip(flip_a[0], flip_b[0])
+print len(flip_a[0][0])
+combined_haps = zip(flip_a[0][0], flip_b[0][0])
+print len(combined_haps)
 c = 0
 for ind in inds:
     ind = ind.strip().split()
