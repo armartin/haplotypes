@@ -118,8 +118,8 @@ for ind in inds:
     hap_b = combined_haps[c][1]
     final_haps = list(roundrobin(hap_a, hap_b))
     print final_haps
-    ind = ind.strip().split()
-    out_ped.write(' '.join(ind) + '\t')
-    out_ped.write(' '.join(final_haps) + '\n')
+#    ind = ind.strip().split()
+#    out_ped.write(' '.join(ind) + '\t')
+#    out_ped.write(' '.join(final_haps) + '\n')
     c += 1
 out_ped.close()
