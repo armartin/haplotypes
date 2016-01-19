@@ -113,10 +113,11 @@ c = 0
 for ind in inds:
     ind = ind.strip().split()
     #print combined_haps
-    print combined_haps[c]
+    #print combined_haps[c]
     hap_a = combined_haps[c][0]
     hap_b = combined_haps[c][1]
     final_haps = list(roundrobin(hap_a, hap_b))
+    print final_haps
     ind = ind.strip().split()
     out_ped.write(' '.join(ind) + '\t')
     out_ped.write(' '.join(final_haps) + '\n')
