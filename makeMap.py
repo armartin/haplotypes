@@ -55,11 +55,12 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
             if haps is not None:
                 #yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other]) ##ISSUE IS HERE
                 yield {'chr': chr, 'rsid': rsid, 'gen_pos': str(proportion), 'phys_pos': phys_pos, 'a0': a0, 'a1': a1, 'haps': other} ##ISSUE IS HERE
+                (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
             else:
                 #yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
                 yield {'chr': chr, 'rsid': rsid, 'gen_pos': str(proportion), 'phys_pos': phys_pos, 'a0': a0, 'a1': a1}
                 #yield [chr, rsid, str(proportion), phys_pos, a0, a1]
-            (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
+                (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[3]), bim_line[4], bim_line[5]) #fix if map_bim=='map'
             
         (current_args[3], current_args[0], current_args[-2], current_args[-1]) = (rsid, phys_pos, a0, a1)
         while True:
