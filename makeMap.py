@@ -79,9 +79,13 @@ def final_checks(write_vars):
     """
     fix 0 genetic positions so hapi-ur doesn't crash
     """
-    #print write_vars
-    if float(write_vars[2]) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get to this point... ?
-        write_vars[2] = 1e-4
+    print write_vars
+    try:
+        if float(write_vars['gen_pos']) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get past this point... ?
+            write_vars['gen_pos'] = 1e-4
+    except KeyError:
+        if float(write_vars[2]) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get past this point... ?
+            write_vars[2] = 1e-4
     return(write_vars)
 
 def check_conditions(all_args):
