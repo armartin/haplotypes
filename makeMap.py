@@ -83,7 +83,7 @@ def final_checks(write_vars):
     try:
         if float(write_vars['gen_pos']) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get past this point... ?
             write_vars['gen_pos'] = 1e-4
-    except KeyError:
+    except TypeError:
         if float(write_vars[2]) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get past this point... ?
             write_vars[2] = 1e-4
     return(write_vars)
