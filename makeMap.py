@@ -52,8 +52,7 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
             proportion = (float(phys_pos) * float(start_cM)) / float(start_bp)
             bim_line = bim.readline().strip().split()
             if haps is not None:
-                print [chr, rsid, str(proportion), phys_pos, a0, a1, other]
-                yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other])
+                yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other]) ##ISSUE IS HERE
                 (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
             else:
                 yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
@@ -80,7 +79,8 @@ def final_checks(write_vars):
     """
     fix 0 genetic positions so hapi-ur doesn't crash
     """
-    if float(write_vars['gen_pos']) < 1e-4:
+    print write_vars
+    if float(write_vars['gen_pos']) < 1e-4: #note: other chromosomes (not 8, 11, 14, 19) don't seem to get to this point... ?
         write_vars['gen_pos'] = 1e-4
     return(write_vars)
 
