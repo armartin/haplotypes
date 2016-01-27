@@ -54,7 +54,7 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
             bim_line = bim.readline().strip().split()
             if haps is not None:
                 #yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other]) ##ISSUE IS HERE
-                yield {'chr': chr, 'rsid': rsid, 'gen_pos': str(proportion), 'phys_pos': phys_pos, 'a0': a0, 'a1': a1, 'other': other} ##ISSUE IS HERE
+                yield {'chr': chr, 'rsid': rsid, 'gen_pos': str(proportion), 'phys_pos': phys_pos, 'a0': a0, 'a1': a1, 'haps': other} ##ISSUE IS HERE
                 (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
             else:
                 #yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1])
