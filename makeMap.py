@@ -52,6 +52,7 @@ def full_map(chr, genmap, bim, map_bim=None, haps=None): #assert that map_bim an
             proportion = (float(phys_pos) * float(start_cM)) / float(start_bp)
             bim_line = bim.readline().strip().split()
             if haps is not None:
+                print [chr, rsid, str(proportion), phys_pos, a0, a1, other]
                 yield final_checks([chr, rsid, str(proportion), phys_pos, a0, a1, other])
                 (rsid, phys_pos, a0, a1) = (bim_line[1], int(bim_line[2]), bim_line[3], bim_line[4]) #fix if map_bim=='map'
             else:
