@@ -17,7 +17,7 @@ def true_test(dash, pheno_dict):
     pheno_inds = set(pheno_dict.keys())
     in_clust = set(dash[5:len(dash):2])
     
-    in_clust_pheno = pheno_inds.intersection(ind_clust)
+    in_clust_pheno = pheno_inds.intersection(in_clust)
     not_in_clust_pheno = pheno_inds.difference(in_clust_pheno)
     
     #print len(in_clust_pheno)
