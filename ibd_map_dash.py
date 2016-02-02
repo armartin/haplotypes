@@ -87,6 +87,9 @@ def main(args):
         for j in range(len(pc2_grid)):
             pca_grid[i][j] = set()
     
+    print pc1_bounds
+    print pc2_bounds
+    
     #print pca_grid
     for ind in pheno_dict.keys():
         for i in range(len(pc1_bounds)-1):
@@ -95,7 +98,7 @@ def main(args):
                     if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
                         pca_grid[i][j].add(ind)
                 except KeyError:
-                    print ind
+                    print [ind, pheno_dict[ind], i, j]
     print pca_grid
     
     clust_dict = {}
