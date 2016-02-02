@@ -78,6 +78,9 @@ def main(args):
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
     pc1_grid = chunkIt(pc1, 10)
+    pc1_bounds = [pc1_grid[i][0] for i in range(len(pc1_grid))]
+    pc1_bounds.append(max(pc1))
+    print pc1_bounds
     pc2_grid = chunkIt(pc2, 10)
     pca_grid = collections.defaultdict(dict) #will need to change this to have perl's auto-vivification feature if we go deeper
     for i in range(len(pc1_grid)):
@@ -85,7 +88,8 @@ def main(args):
             pca_grid[i][j] = set()
     
     print pca_grid
-    
+    #for ind in pheno.keys():
+        
     
     clust_dict = {}
     for line in dash:
