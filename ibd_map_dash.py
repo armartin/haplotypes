@@ -88,7 +88,7 @@ def main(args):
             pca_grid[i][j] = set()
     
     #print pca_grid
-    for ind in pheno.keys():
+    for ind in pheno_dict.keys():
         for i in range(len(pca1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
                 if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
