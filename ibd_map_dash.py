@@ -28,7 +28,7 @@ def true_test(dash, pheno_dict):
     print len(in_clust_phenos)
     print not_in_clust_phenos[0:10]
     
-    if len(in_clust_phenos) > 2 & len(not_in_clust_phenos) > 2:
+    if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
         print 'in test scenario'
         (my_t, my_prob) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
         print [my_t, my_prob]
