@@ -50,7 +50,7 @@ if __name__ == '__main__':
     parser.add_argument('--cum_ibd')#, required=True)
     parser.add_argument('--pheno', help='this should be the joint maximal set of individuals phenotyped with haplotypes called', default='/homes/amartin/fr_broad/ldl_fr_engagex.pheno')
     parser.add_argument('--pca', required=True)    
-    parser.add_argument('--out', required=True)
+    parser.add_argument('--out')#, required=True)
     
     args = parser.parse_args()
     main(args)
