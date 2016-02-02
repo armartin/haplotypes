@@ -15,15 +15,22 @@ def open_file(filename):
 ## make sure there are >3 individuals in/out of cluster
 def true_test(dash, pheno_dict):
     pheno_inds = set(pheno_dict.keys())
-    in_clust = set(dash[5:len(dash):2])
+    in_clust_inds = set(dash[5:len(dash):2])
     
-    in_clust_pheno = pheno_inds.intersection(in_clust)
-    not_in_clust_pheno = pheno_inds.difference(in_clust_pheno)
+    in_clust_inds = list(pheno_inds.intersection(in_clust_inds))
+    not_in_clust_inds = list(pheno_inds.difference(in_clust_inds))
     
-    #print len(in_clust_pheno)
+    in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
+    not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
+    
+    if len(in_clust_phenos > 2) & len(not_in_clust_phenos > 3):
+        my_t = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+        print my_t
+        
+        #print len(in_clust_pheno)
     #print len(not_in_clust_pheno)
     
-    return(in_clust_pheno, not_in_clust_pheno)
+    return(in_clust_phenos, not_in_clust_phenos)
     
 
 ## open all files
@@ -47,8 +54,10 @@ def main(args):
         line = line.strip().split()
         pca_dict[line[1]] = map(float, line[6:len(line)])
     
+    clust_dict = {}
     for line in dash:
         line = line.strip().split()
+        clust_dict[line[0]] = line[1:5]
         (in_clust, not_in_clust) = true_test(line, pheno_dict)
         print len(in_clust)
         print len(not_in_clust)
