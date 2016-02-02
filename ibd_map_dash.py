@@ -74,22 +74,26 @@ def main(args):
             pc2.append(float(line[7]))
             pca_dict[line[1]] = map(float, line[6:len(line)])
     
+    ## make an evenly spaced pca grid for matching individuals
     print len(pca_dict)
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
     pc1_grid = chunkIt(pc1, 10)
     pc1_bounds = [pc1_grid[i][0] for i in range(len(pc1_grid))]
-    print min(pc1)
-    print max(pc1)
     pc2_grid = chunkIt(pc2, 10)
+    pc2_bounds = [pc2_grid[i][0] for i in range(len(pc2_grid))]
     pca_grid = collections.defaultdict(dict) #will need to change this to have perl's auto-vivification feature if we go deeper
     for i in range(len(pc1_grid)):
         for j in range(len(pc2_grid)):
             pca_grid[i][j] = set()
     
+    #print pca_grid
+    for ind in pheno.keys():
+        for i in range(len(pca1_bounds)-1):
+            for j in range(len(pc2_bounds)-1):
+                if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
+                    pca_grid[i][j].add(ind)
     print pca_grid
-    #for ind in pheno.keys():
-        
     
     clust_dict = {}
     for line in dash:
