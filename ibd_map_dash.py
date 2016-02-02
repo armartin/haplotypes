@@ -36,7 +36,11 @@ def main(args):
     pheno_dict = {}
     for line in pheno:
         line = line.strip().split()
-        pheno_dict[line[1]] = float(line[2])
+        try:
+            pheno_dict[line[1]] = float(line[2])
+        except ValueError:
+            pass
+    print len(pheno_dict)
     
     pca_dict = {}
     for line in pca:
