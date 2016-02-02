@@ -20,8 +20,11 @@ def true_test(dash, pheno_dict):
     in_clust_pheno = pheno_inds.intersection(ind_clust)
     not_in_clust_pheno = pheno_inds.difference(in_clust_pheno)
     
-    print len(in_clust_pheno)
-    print len(not_in_clust_pheno)
+    #print len(in_clust_pheno)
+    #print len(not_in_clust_pheno)
+    
+    return(in_clust_pheno, not_in_clust_pheno)
+    
 
 ## open all files
 def main(args):
@@ -42,7 +45,9 @@ def main(args):
     
     for line in dash:
         line = line.strip().split()
-        yield true_test(line, pheno_dict)
+        (in_clust, not_in_clust) = true_test(line, pheno_dict)
+        print len(in_clust)
+        print len(not_in_clust)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
