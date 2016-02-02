@@ -1,6 +1,8 @@
 import argparse
 import gzip
 from scipy import stats
+import numpy as np
+import collections
 
 ## open gzipped and plain files
 def open_file(filename):
@@ -23,21 +25,28 @@ def true_test(dash, pheno_dict):
     in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
-    print len(in_clust_inds)
-    print not_in_clust_inds[0:10]
-    print len(in_clust_phenos)
-    print not_in_clust_phenos[0:10]
-    
     if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
         print 'in test scenario'
-        (my_t, my_prob) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
-        print [my_t, my_prob]
-        
+        (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+        return {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
         #print len(in_clust_pheno)
     #print len(not_in_clust_pheno)
     
     return(in_clust_phenos, not_in_clust_phenos)
-    
+
+## function for splitting into evenly sized grid
+def chunkIt(seq, num):
+    avg = len(seq) / float(num)
+    out = []
+    last = 0.0
+    while last < len(seq):
+        out.append(seq[int(last):int(last + avg)])
+        last += avg  
+    return out
+
+## second step: perform t-test comparing individuals matched to those with vs without haplotype
+def perm_test(truth, times=100):
+    pass
 
 ## open all files
 def main(args):
@@ -56,17 +65,35 @@ def main(args):
     print len(pheno_dict)
     
     pca_dict = {}
+    pc1 = []
+    pc2 = []
     for line in pca:
         line = line.strip().split()
-        pca_dict[line[1]] = map(float, line[6:len(line)])
+        if line[1] in pheno_dict:
+            pc1.append(float(line[6]))
+            pc2.append(float(line[7]))
+            pca_dict[line[1]] = map(float, line[6:len(line)])
+    
+    print len(pca_dict)
+    pc1 = sorted(pc1)
+    pc2 = sorted(pc2)
+    pc1_grid = chunkIt(pc1, 10)
+    pc2_grid = chunkIt(pc2, 10)
+    pca_grid = collections.defaultdict(dict) #will need to change this to have perl's auto-vivification feature if we go deeper
+    for i in range(len(pc1_grid)):
+        for j in range(len(pc2_grid)):
+            pca_grid[i][j] = set()
+    
+    print pca_grid
+    
     
     clust_dict = {}
     for line in dash:
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
-        (in_clust, not_in_clust) = true_test(line, pheno_dict)
-        print len(in_clust)
-        print len(not_in_clust)
+        truth = true_test(line, pheno_dict)
+        perm = perm_test(truth, times) #defaults to 100
+        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
