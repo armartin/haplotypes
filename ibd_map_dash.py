@@ -23,6 +23,11 @@ def true_test(dash, pheno_dict):
     in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
+    print len(in_clust_inds)
+    print not_in_clust_inds[0:10]
+    print len(in_clust_phenos)
+    print not_in_clust_phenos[0:10]
+    
     if len(in_clust_phenos > 2) & len(not_in_clust_phenos > 3):
         my_t = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
         print my_t
