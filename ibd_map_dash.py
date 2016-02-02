@@ -59,7 +59,7 @@ def main(args):
     for line in pheno:
         line = line.strip().split()
         try:
-            pheno_dict[line[0]] = float(line[2])
+            pheno_dict[line[0]] = float(line[2]) #fix to make iid sometime
         except ValueError:
             pass
     print len(pheno_dict)
@@ -91,8 +91,11 @@ def main(args):
     for ind in pheno_dict.keys():
         for i in range(len(pc1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
-                if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
-                    pca_grid[i][j].add(ind)
+                try:
+                    if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
+                        pca_grid[i][j].add(ind)
+                except KeyError:
+                    print ind
     print pca_grid
     
     clust_dict = {}
