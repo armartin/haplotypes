@@ -59,7 +59,7 @@ def main(args):
     for line in pheno:
         line = line.strip().split()
         try:
-            pheno_dict[line[1]] = float(line[2])
+            pheno_dict[line[0]] = float(line[2])
         except ValueError:
             pass
     print len(pheno_dict)
