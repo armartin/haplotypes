@@ -69,6 +69,8 @@ def main(args):
     pheno = open_file(args.pheno)
     #cum_ibd = open_file(args.cum_ibd)
     pca = open_file(args.pca)
+    out = open(args.out, 'w')
+    out.write('\t'.join(['cluster', 'cluster_start', 'cluster_end', 'max_start', 'min_end', 'cluster_midpoint', 'p_adj']) + '\n')
     
     pheno_dict = {}
     for line in pheno:
@@ -123,7 +125,9 @@ def main(args):
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict) #defaults to 100
         if perm['p'] != 'NA':
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
-            print p_adj
+            out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
+        else:
+            pass #maybe printing NA's is a good idea?
         
 
 if __name__ == '__main__':
