@@ -46,6 +46,7 @@ def chunkIt(seq, num):
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
 def perm_test(truth, ind_grid, pca_grid, times=100):
+    print truth
     matched_inds = []
     for ind in truth['in_clust']:
         matched = ind_grid[ind]
