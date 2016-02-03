@@ -4,6 +4,7 @@ from scipy import stats
 import numpy as np
 import collections
 import random
+from bisect import bisect
 
 ## open gzipped and plain files
 def open_file(filename):
@@ -46,7 +47,6 @@ def chunkIt(seq, num):
 def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
     t = []
     p = []
-    print len(truth['in_clust'])
     if len(truth['in_clust']) > 2:
         for i in range(times):
             matched_inds = []
@@ -123,7 +123,9 @@ def main(args):
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict) #defaults to 100
-        print perm
+        if perm['p'] != 'NA':
+            p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
+            print p_adj
         
 
 if __name__ == '__main__':
