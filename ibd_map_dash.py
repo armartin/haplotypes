@@ -30,10 +30,6 @@ def true_test(dash, pheno_dict):
     (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
     truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
     return truth
-        #print len(in_clust_pheno)
-    #print len(not_in_clust_pheno)
-    
-    #return(in_clust_phenos, not_in_clust_phenos)
 
 ## function for splitting into evenly sized grid
 def chunkIt(seq, num):
@@ -47,11 +43,21 @@ def chunkIt(seq, num):
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
 def perm_test(truth, ind_grid, pca_grid, times=100):
-    print truth
-    matched_inds = []
-    for ind in truth['in_clust']:
-        matched = ind_grid[ind]
-        matched_inds.append(pca_grid[matched[0]][matched[1]])
+    t = []
+    p = []
+    for i in range(times):
+        matched_inds = []
+        for ind in truth['in_clust']:
+            matched = ind_grid[ind]
+            matched_inds.append(pca_grid[matched[0]][matched[1]])
+        unmatched_inds = truth['in_clust'].union(truth['out_clust']).difference(set(matched_inds))
+        
+        matched_phenos = [pheno_dict[ind] for ind in matched_inds]
+        unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
+        (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+        t.append(my_t)
+        p.append(my_p)
+    return({'t': t, 'p': p})
 
 ## open all files
 def main(args):
@@ -110,8 +116,8 @@ def main(args):
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
-        print truth
         perm = perm_test(truth, ind_grid, pca_grid) #defaults to 100
+        print perm
         
 
 if __name__ == '__main__':
