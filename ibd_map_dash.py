@@ -76,6 +76,8 @@ def main(args):
     
     ## make an evenly spaced pca grid for matching individuals
     print len(pca_dict)
+    print pca_dict['FR97_2347']
+    print
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
     pc1_grid = chunkIt(pc1, 10)
@@ -95,7 +97,7 @@ def main(args):
         for i in range(len(pc1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
                 try:
-                    if pca_dict[ind] >= pc1_bounds and pca_dict[ind < pc1_bounds] and pca_dict[ind] >= pc2_bounds and pca_dict[ind] < pc2_bounds:
+                    if pca_dict[ind][0] >= pc1_bounds and pca_dict[ind][0] < pc1_bounds and pca_dict[ind][1] >= pc2_bounds and pca_dict[ind][1] < pc2_bounds:
                         pca_grid[i][j].add(ind)
                 except KeyError:
                     print [ind, pca_dict[ind], i, j]
