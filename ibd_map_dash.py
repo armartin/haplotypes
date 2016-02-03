@@ -50,7 +50,7 @@ def perm_test(truth, ind_grid, pca_grid, times=100):
         for ind in truth['in_clust']:
             matched = ind_grid[ind]
             matched_inds.append(pca_grid[matched[0]][matched[1]])
-        unmatched_inds = truth['in_clust'].union(truth['out_clust']).difference(set(matched_inds))
+        unmatched_inds = [set(truth['in_clust']).union(set(truth['out_clust'])).difference(set(matched_inds))]
         
         matched_phenos = [pheno_dict[ind] for ind in matched_inds]
         unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
