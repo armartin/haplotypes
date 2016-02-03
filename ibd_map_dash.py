@@ -61,7 +61,7 @@ def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
             (my_t, my_p) = stats.ttest_ind(matched_phenos, unmatched_phenos)
             t.append(my_t)
             p.append(my_p)
-        return({'t': t, 'p': p})
+        return({'t': sorted(t), 'p': sorted(p)})
     else:
         return({'t': 'NA', 'p': 'NA'})
     
