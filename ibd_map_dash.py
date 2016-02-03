@@ -102,8 +102,8 @@ def main(args):
                 #    print [ind, pca_dict[ind], i, j]
                 #except KeyError:
                 #    print [ind, pca_dict[ind], i, j]
-    for i in range(len(pc1_bounds)-1):
-        for j in range(len(pc2_bounds)-1):
+    for i in range(len(pc1_bounds)):
+        for j in range(len(pc2_bounds)):
             print [i, j, len(pca_grid[i][j])]
     
     
