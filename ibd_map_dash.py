@@ -102,7 +102,10 @@ def main(args):
                 #    print [ind, pca_dict[ind], i, j]
                 #except KeyError:
                 #    print [ind, pca_dict[ind], i, j]
-    print pca_grid
+    for i in range(len(pc1_bounds)-1):
+        for j in range(len(pc2_bounds)-1):
+            print len(pca_grid[i][j])
+    
     
     clust_dict = {}
     for line in dash:
