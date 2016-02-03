@@ -28,7 +28,6 @@ def true_test(dash, pheno_dict):
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
     #if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
-    print 'in test scenario'
     (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
     truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
     return truth
@@ -56,7 +55,6 @@ def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
             unmatched_inds = list(set(truth['in_clust']).union(set(truth['out_clust'])).difference(set(matched_inds)))
             
             matched_phenos = [pheno_dict[ind] for ind in matched_inds]
-            print matched_phenos
             unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
             (my_t, my_p) = stats.ttest_ind(matched_phenos, unmatched_phenos)
             t.append(my_t)
