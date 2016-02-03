@@ -28,7 +28,8 @@ def true_test(dash, pheno_dict):
     if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
         print 'in test scenario'
         (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
-        return {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
+        truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
+        return truth
         #print len(in_clust_pheno)
     #print len(not_in_clust_pheno)
     
@@ -66,7 +67,6 @@ def main(args):
             pheno_dict[line[0]] = float(line[2]) #fix to make iid sometime
         except ValueError:
             pass
-    print len(pheno_dict)
     
     pca_dict = {}
     pc1 = []
@@ -79,9 +79,6 @@ def main(args):
             pca_dict[line[1]] = map(float, line[6:len(line)])
     
     ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
-    print len(pca_dict)
-    print pca_dict['FR97_2347']
-    print
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
     pc1_grid = chunkIt(pc1, 10)
@@ -95,9 +92,6 @@ def main(args):
         for j in range(len(pc2_grid)):
             pca_grid[i][j] = set()
     
-    print pc1_bounds
-    print pc2_bounds
-    
     ## store ind -> grid points
     ind_grid = {}
     for ind in pheno_dict.keys():
@@ -106,20 +100,17 @@ def main(args):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
-                #else:
-                #    print [ind, pca_dict[ind], i, j]
-                #except KeyError:
-                #    print [ind, pca_dict[ind], i, j]
+    
     for i in range(len(pc1_bounds)-1):
         for j in range(len(pc2_bounds)-1):
             print [i, j, len(pca_grid[i][j])]
-    
     
     clust_dict = {}
     for line in dash:
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
+        print truth
         perm = perm_test(truth, ind_grid, pca_grid) #defaults to 100
         
 
