@@ -42,7 +42,7 @@ def chunkIt(seq, num):
     return out
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
-def perm_test(truth, ind_grid, pca_grid, times=100):
+def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
     t = []
     p = []
     for i in range(times):
@@ -116,7 +116,7 @@ def main(args):
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
-        perm = perm_test(truth, ind_grid, pca_grid) #defaults to 100
+        perm = perm_test(truth, ind_grid, pca_grid, pheno_dict) #defaults to 100
         print perm
         
 
