@@ -54,7 +54,7 @@ def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
         
         matched_phenos = [pheno_dict[ind] for ind in matched_inds]
         unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
-        (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+        (my_t, my_p) = stats.ttest_ind(matched_phenos, unmatched_phenos)
         t.append(my_t)
         p.append(my_p)
     return({'t': t, 'p': p})
