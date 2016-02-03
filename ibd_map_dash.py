@@ -45,8 +45,11 @@ def chunkIt(seq, num):
     return out
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
-def perm_test(truth, times=100):
-    pass
+def perm_test(truth, ind_grid, pca_grid, times=100):
+    matched_inds = []
+    for ind in truth['in_clust']:
+        matched = ind_grid[ind]
+        matched_inds.append(pca_grid[matched[0]][matched[1]])
 
 ## open all files
 def main(args):
@@ -74,7 +77,7 @@ def main(args):
             pc2.append(float(line[7]))
             pca_dict[line[1]] = map(float, line[6:len(line)])
     
-    ## make an evenly spaced pca grid for matching individuals
+    ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
     print len(pca_dict)
     print pca_dict['FR97_2347']
     print
@@ -94,12 +97,14 @@ def main(args):
     print pc1_bounds
     print pc2_bounds
     
-    #print pca_grid
+    ## store ind -> grid points
+    ind_grid = {}
     for ind in pheno_dict.keys():
         for i in range(len(pc1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
                     pca_grid[i][j].add(ind)
+                    ind_grid[ind] = [i, j]
                 #else:
                 #    print [ind, pca_dict[ind], i, j]
                 #except KeyError:
@@ -114,7 +119,7 @@ def main(args):
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
-        perm = perm_test(truth, times) #defaults to 100
+        perm = perm_test(truth, ind_grid, pca_grid) #defaults to 100
         
 
 if __name__ == '__main__':
