@@ -25,15 +25,15 @@ def true_test(dash, pheno_dict):
     in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
-    if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
-        print 'in test scenario'
-        (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
-        truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
-        return truth
+    #if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
+    print 'in test scenario'
+    (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+    truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
+    return truth
         #print len(in_clust_pheno)
     #print len(not_in_clust_pheno)
     
-    return(in_clust_phenos, not_in_clust_phenos)
+    #return(in_clust_phenos, not_in_clust_phenos)
 
 ## function for splitting into evenly sized grid
 def chunkIt(seq, num):
