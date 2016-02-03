@@ -46,21 +46,24 @@ def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
     t = []
     p = []
     print len(truth['in_clust'])
-    for i in range(times):
-        matched_inds = []
-        for ind in truth['in_clust']:
-            matched = ind_grid[ind]
-            matched_inds.append(pca_grid[matched[0]][matched[1]])
-        unmatched_inds = list(set(truth['in_clust']).union(set(truth['out_clust'])).difference(set(matched_inds)))
-        
-        matched_phenos = [pheno_dict[ind] for ind in matched_inds]
-        print matched_phenos
-        unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
-        (my_t, my_p) = stats.ttest_ind(matched_phenos, unmatched_phenos)
-        t.append(my_t)
-        p.append(my_p)
-    return({'t': t, 'p': p})
-
+    if len(truth['in_clust']) > 2:
+        for i in range(times):
+            matched_inds = []
+            for ind in truth['in_clust']:
+                matched = ind_grid[ind]
+                matched_inds.append(pca_grid[matched[0]][matched[1]])
+            unmatched_inds = list(set(truth['in_clust']).union(set(truth['out_clust'])).difference(set(matched_inds)))
+            
+            matched_phenos = [pheno_dict[ind] for ind in matched_inds]
+            print matched_phenos
+            unmatched_phenos = [pheno_dict[ind] for ind in unmatched_inds]
+            (my_t, my_p) = stats.ttest_ind(matched_phenos, unmatched_phenos)
+            t.append(my_t)
+            p.append(my_p)
+        return({'t': t, 'p': p})
+    else:
+        return({'t': 'NA', 'p': 'NA'})
+    
 ## open all files
 def main(args):
     dash = open_file(args.dash)
