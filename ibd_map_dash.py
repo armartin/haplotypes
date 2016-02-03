@@ -96,7 +96,7 @@ def main(args):
     for ind in pheno_dict.keys():
         for i in range(len(pc1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
-                if pca_dict[ind][0] >= pc1_bounds and pca_dict[ind][0] < pc1_bounds and pca_dict[ind][1] >= pc2_bounds and pca_dict[ind][1] < pc2_bounds:
+                if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[i] and pca_dict[ind][1] < pc2_bounds[i+1]:
                     pca_grid[i][j].add(ind)
                 else:
                     print [ind, pca_dict[ind], i, j]
