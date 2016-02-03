@@ -98,8 +98,8 @@ def main(args):
             for j in range(len(pc2_bounds)-1):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
                     pca_grid[i][j].add(ind)
-                else:
-                    print [ind, pca_dict[ind], i, j]
+                #else:
+                #    print [ind, pca_dict[ind], i, j]
                 #except KeyError:
                 #    print [ind, pca_dict[ind], i, j]
     print pca_grid
