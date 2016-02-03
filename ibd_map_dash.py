@@ -80,12 +80,12 @@ def main(args):
     print
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
-    print max(pc1)
-    print max(pc2)
     pc1_grid = chunkIt(pc1, 10)
     pc1_bounds = [pc1_grid[i][0] for i in range(len(pc1_grid))]
+    pc1_bounds.append(max(pc1))
     pc2_grid = chunkIt(pc2, 10)
     pc2_bounds = [pc2_grid[i][0] for i in range(len(pc2_grid))]
+    pc2_bounds.append(max(pc2))
     pca_grid = collections.defaultdict(dict) #will need to change this to have perl's auto-vivification feature if we go deeper
     for i in range(len(pc1_grid)):
         for j in range(len(pc2_grid)):
