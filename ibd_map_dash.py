@@ -45,6 +45,7 @@ def chunkIt(seq, num):
 def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
     t = []
     p = []
+    print len(truth['in_clust'])
     for i in range(times):
         matched_inds = []
         for ind in truth['in_clust']:
