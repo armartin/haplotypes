@@ -14,9 +14,7 @@ def open_file(filename):
         my_file = open(filename)
     return my_file
 
-## first step: perform t-test comparing those with vs without haplotype
-## compare pheno clust with pheno no-clust inds
-## make sure there are >3 individuals in/out of cluster
+## first step: perform t-test comparing in vs out of haplotype cluster
 def true_test(dash, pheno_dict):
     pheno_inds = set(pheno_dict.keys())
     in_clust_inds = set(dash[5:len(dash):2])
@@ -27,7 +25,6 @@ def true_test(dash, pheno_dict):
     in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
-    #if len(in_clust_phenos) > 2 and len(not_in_clust_phenos) > 2:
     (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
     truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
     return truth
@@ -43,9 +40,10 @@ def chunkIt(seq, num):
     return out
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
-def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100):
+def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100, p=[], t=[]):
     t = []
     p = []
+    ## make sure there are greater than 2 individuals in and outside the cluster
     if len(truth['in_clust']) > 2:
         for i in range(times):
             matched_inds = []
@@ -123,8 +121,12 @@ def main(args):
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict)
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict) #defaults to 100
-        if perm['p'] != 'NA':
+        if perm['p'] != 'NA' and perm['p'] > 0.05:
+            times = 1000
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
+            while p_adj < 5/times and times < 10001:
+                p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
+                times = times * 10
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
         else:
             pass #maybe printing NA's is a good idea?
