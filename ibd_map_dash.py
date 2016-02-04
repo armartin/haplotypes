@@ -41,8 +41,6 @@ def chunkIt(seq, num):
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
 def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100, p=[], t=[]):
-    t = []
-    p = []
     ## make sure there are greater than 2 individuals in and outside the cluster
     if len(truth['in_clust']) > 2:
         for i in range(times):
@@ -125,6 +123,7 @@ def main(args):
             times = 1000
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
             while p_adj < 5/times and times < 10001:
+                perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, times=times, p=perm['p'], t=perm['t']) #defaults to 100
                 p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
                 times = times * 10
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
