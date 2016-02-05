@@ -94,7 +94,7 @@ def main(args):
             pca_dict[line[1]] = map(float, line[2:len(line)])
     print '# of inds with PCs: ' + str(len(pca_dict))
     
-    all_inds = list(pca_dict.keys()).intersection(set(pheno_dict.keys()))
+    all_inds = list(set(pca_dict.keys()).intersection(set(pheno_dict.keys())))
     print '# of inds with PCs and phenos: ' + str(len(all_inds))
     
     ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
