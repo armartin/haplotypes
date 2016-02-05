@@ -15,12 +15,12 @@ def open_file(filename):
     return my_file
 
 ## first step: perform t-test comparing in vs out of haplotype cluster
-def true_test(dash, pheno_dict):
-    pheno_inds = set(pheno_dict.keys())
+def true_test(dash, pheno_dict, all_inds):
+    pheno_inds = set(pheno_dict.keys()).intersection(all_inds)
     in_clust_inds = set(dash[5:len(dash):2])
     
-    in_clust_inds = list(pheno_inds.intersection(in_clust_inds))
-    not_in_clust_inds = list(pheno_inds.difference(in_clust_inds))
+    in_clust_inds = list(pheno_inds.intersection(in_clust_inds).intersection(all_inds))
+    not_in_clust_inds = list(pheno_inds.difference(in_clust_inds).intersection(all_inds))
     
     in_clust_phenos = [pheno_dict[ind] for ind in in_clust_inds]
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
@@ -41,7 +41,7 @@ def chunkIt(seq, num):
     return out
 
 ## second step: perform t-test comparing individuals matched to those with vs without haplotype
-def perm_test(truth, ind_grid, pca_grid, pheno_dict, times=100, p=[], t=[]):
+def perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds, times=100, p=[], t=[]):
     ## make sure there are greater than 2 individuals in and outside the cluster
     if len(truth['in_clust']) > 2:
         for i in range(times):
@@ -69,26 +69,39 @@ def main(args):
     out = open(args.out, 'w')
     out.write('\t'.join(['cluster', 'cluster_start', 'cluster_end', 'max_start', 'min_end', 'cluster_midpoint', 'p_adj']) + '\n')
     
+    all_inds = set()
+    
     pheno_dict = {}
     for line in pheno:
         line = line.strip().split()
         try:
             pheno_dict[line[1]] = float(line[2]) #fix to make iid sometime
+            all_inds.add(line[1])
         except ValueError:
             pass
-    print len(pheno_dict)
+    print '# of inds with phenos: '+ str(len(pheno_dict))
     
     pca_dict = {}
+    pca_inds = set()
     pc1 = []
     pc2 = []
     for line in pca:
         line = line.strip().split()
         if line[1] in pheno_dict:
+            pca_inds.add(line[1])
             pc1.append(float(line[2]))
             pc2.append(float(line[3]))
             pca_dict[line[1]] = map(float, line[2:len(line)])
+    print '# of inds with PCs: ' + str(len(pca_dict))
+    
+    print '# of inds with PCs and phenos: ' + str(len(set(pca_dict.keys()).intersection(set(pheno_dict.keys()))))
+            
+    ## REMOVE THIS LATER!!!
+    ## get rid of individuals without PCA data... why does these exist?!
+    all_inds = list(all_inds.intersection(pca_inds))
     
     ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
+    
     pc1 = sorted(pc1)
     pc2 = sorted(pc2)
     pc1_grid = chunkIt(pc1, 10)
@@ -104,7 +117,7 @@ def main(args):
     
     ## store ind -> grid points
     ind_grid = {}
-    for ind in pheno_dict.keys():
+    for ind in all_inds:
         for i in range(len(pc1_bounds)-1):
             for j in range(len(pc2_bounds)-1):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
@@ -121,8 +134,8 @@ def main(args):
     for line in dash:
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
-        truth = true_test(line, pheno_dict)
-        perm = perm_test(truth, ind_grid, pca_grid, pheno_dict) #defaults to 100
+        truth = true_test(line, pheno_dict, all_inds)
+        perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds) #defaults to 100
         if perm['p'] != 'NA' and perm['p'] > 0.05:
             times = 1000
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
