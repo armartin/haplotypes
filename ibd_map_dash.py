@@ -135,6 +135,7 @@ def main(args):
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict, all_inds)
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds) #defaults to 100
+        times = 100
         if perm['p'] != 'NA':
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
             print [count, p_adj]
