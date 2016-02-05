@@ -94,11 +94,8 @@ def main(args):
             pca_dict[line[1]] = map(float, line[2:len(line)])
     print '# of inds with PCs: ' + str(len(pca_dict))
     
-    print '# of inds with PCs and phenos: ' + str(len(set(pca_dict.keys()).intersection(set(pheno_dict.keys()))))
-            
-    ## REMOVE THIS LATER!!!
-    ## get rid of individuals without PCA data... why does these exist?!
-    all_inds = list(all_inds.intersection(pca_inds))
+    all_inds = list(pca_dict.keys()).intersection(set(pheno_dict.keys()))
+    print '# of inds with PCs and phenos: ' + str(len(all_inds))
     
     ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
     
@@ -123,6 +120,8 @@ def main(args):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
+                else:
+                    print ind
     
     print len(ind_grid)
     
