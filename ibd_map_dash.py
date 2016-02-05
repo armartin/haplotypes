@@ -146,7 +146,6 @@ def main(args):
                     times = times * 10
                     perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds, times=times, p=perm['p'], t=perm['t']) #defaults to 100
                     p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
-                    print [p_adj, times]
                     
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
         else:
