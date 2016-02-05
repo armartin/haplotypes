@@ -142,7 +142,7 @@ def main(args):
             
             if p_adj <= 0.05:
                 print 'more permutations'
-                while p_adj < 5/times and times < 10001:
+                while p_adj < float(5)/times and times < 10001:
                     times = times * 10
                     perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, times=times, p=perm['p'], t=perm['t']) #defaults to 100
                     p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
