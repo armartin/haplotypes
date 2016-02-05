@@ -5,6 +5,8 @@ import numpy as np
 import collections
 import random
 from bisect import bisect
+from datetime import datetime
+import time
 
 ## open gzipped and plain files
 def open_file(filename):
@@ -61,6 +63,7 @@ def perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds, times=100, p=[], 
     
 ## open all files
 def main(args):
+    print 'Starting [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
     dash = open_file(args.dash)
     pheno = open_file(args.pheno)
     #cum_ibd = open_file(args.cum_ibd)
@@ -153,7 +156,7 @@ def main(args):
             pass #maybe printing NA's is a good idea?
         count += 1
         if count % 1000 == 0:
-            print [count, line[0:5]]
+            print str(count) + ' [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
         
 
 if __name__ == '__main__':
