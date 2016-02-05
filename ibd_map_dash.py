@@ -26,7 +26,6 @@ def true_test(dash, pheno_dict, all_inds):
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
     (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
-    print [my_t, my_p]
     truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
     return truth
 
@@ -124,13 +123,10 @@ def main(args):
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
     
-    print set(all_inds).difference(set(ind_grid.keys()))
-    
-    print len(ind_grid)
-    
-    for i in range(len(pc1_bounds)-1):
-        for j in range(len(pc2_bounds)-1):
-            print [i, j, len(pca_grid[i][j])]
+    #num inds in each grid point
+    #for i in range(len(pc1_bounds)-1):
+    #    for j in range(len(pc2_bounds)-1):
+    #        print [i, j, len(pca_grid[i][j])]
     
     clust_dict = {}
     for line in dash:
@@ -147,7 +143,6 @@ def main(args):
                 p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
                 times = times * 10
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
-            out.flush()
         else:
             pass #maybe printing NA's is a good idea?
         
