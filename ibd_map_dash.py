@@ -121,7 +121,7 @@ def main(args):
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
     
-    print all_inds.difference(set(ind_grid.keys()))
+    print set(all_inds).difference(set(ind_grid.keys()))
     
     print len(ind_grid)
     
