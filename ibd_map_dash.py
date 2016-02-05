@@ -123,10 +123,12 @@ def main(args):
             times = 1000
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
             while p_adj < 5/times and times < 10001:
+                print [p_adj, times]
                 perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, times=times, p=perm['p'], t=perm['t']) #defaults to 100
                 p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
                 times = times * 10
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
+            out.flush()
         else:
             pass #maybe printing NA's is a good idea?
         
