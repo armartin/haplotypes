@@ -111,6 +111,8 @@ def main(args):
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
     
+    print len(ind_grid)
+    
     for i in range(len(pc1_bounds)-1):
         for j in range(len(pc2_bounds)-1):
             print [i, j, len(pca_grid[i][j])]
