@@ -139,7 +139,7 @@ def main(args):
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
             print [count, p_adj]
             
-            if perm['p'] <= 0.05:
+            if p_adj <= 0.05:
                 print 'more permutations'
                 times = 1000
                 while p_adj < 5/times and times < 10001:
