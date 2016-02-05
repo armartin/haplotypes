@@ -112,6 +112,9 @@ def main(args):
         for j in range(len(pc2_grid)):
             pca_grid[i][j] = set()
     
+    print pc1_bounds
+    print pc2_bounds
+    
     ## store ind -> grid points
     ind_grid = {}
     for ind in all_inds:
@@ -120,9 +123,6 @@ def main(args):
                 if pca_dict[ind][0] >= pc1_bounds[i] and pca_dict[ind][0] < pc1_bounds[i+1] and pca_dict[ind][1] >= pc2_bounds[j] and pca_dict[ind][1] < pc2_bounds[j+1]:
                     pca_grid[i][j].add(ind)
                     ind_grid[ind] = [i, j]
-                else:
-                    print ind
-                    print pca_dict[ind]
     
     print set(all_inds).difference(set(ind_grid.keys()))
     
