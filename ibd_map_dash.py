@@ -26,6 +26,7 @@ def true_test(dash, pheno_dict):
     not_in_clust_phenos = [pheno_dict[ind] for ind in not_in_clust_inds]
     
     (my_t, my_p) = stats.ttest_ind(in_clust_phenos, not_in_clust_phenos)
+    print [my_t, my_p]
     truth = {'in_clust': in_clust_inds, 'out_clust': not_in_clust_inds, 't': my_t, 'p': my_p}
     return truth
 
@@ -72,9 +73,10 @@ def main(args):
     for line in pheno:
         line = line.strip().split()
         try:
-            pheno_dict[line[0]] = float(line[2]) #fix to make iid sometime
+            pheno_dict[line[1]] = float(line[2]) #fix to make iid sometime
         except ValueError:
             pass
+    print len(pheno_dict)
     
     pca_dict = {}
     pc1 = []
@@ -82,9 +84,9 @@ def main(args):
     for line in pca:
         line = line.strip().split()
         if line[1] in pheno_dict:
-            pc1.append(float(line[6]))
-            pc2.append(float(line[7]))
-            pca_dict[line[1]] = map(float, line[6:len(line)])
+            pc1.append(float(line[2]))
+            pc2.append(float(line[3]))
+            pca_dict[line[1]] = map(float, line[2:len(line)])
     
     ## make an evenly spaced pca grid for matching individuals, save individuals that fall in each grid
     pc1 = sorted(pc1)
