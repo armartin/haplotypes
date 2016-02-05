@@ -140,11 +140,8 @@ def main(args):
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds) #defaults to 100
         times = 100
         if perm['p'] != 'NA':
-            p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
-            print [count, p_adj]
-            
+            p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])            
             if p_adj <= 0.05:
-                print 'more permutations'
                 while p_adj < float(5)/times and times < 10001:
                     times = times * 10
                     perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds, times=times, p=perm['p'], t=perm['t']) #defaults to 100
