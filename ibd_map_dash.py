@@ -129,22 +129,27 @@ def main(args):
     #        print [i, j, len(pca_grid[i][j])]
     
     clust_dict = {}
+    count = 1
     for line in dash:
         line = line.strip().split()
         clust_dict[line[0]] = line[1:5]
         truth = true_test(line, pheno_dict, all_inds)
         perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, all_inds) #defaults to 100
-        if perm['p'] != 'NA' and perm['p'] > 0.05:
-            times = 1000
+        if perm['p'] != 'NA':
             p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
-            while p_adj < 5/times and times < 10001:
-                print [p_adj, times]
-                perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, times=times, p=perm['p'], t=perm['t']) #defaults to 100
-                p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
-                times = times * 10
+            if perm['p'] <= 0.05:
+                times = 1000
+                while p_adj < 5/times and times < 10001:
+                    print [p_adj, times]
+                    perm = perm_test(truth, ind_grid, pca_grid, pheno_dict, times=times, p=perm['p'], t=perm['t']) #defaults to 100
+                    p_adj = float(bisect(perm['p'], truth['p']))/len(perm['p'])
+                    times = times * 10
             out.write('\t'.join(line[0:5]) + '\t' + str((int(line[1]) + int(line[2])) / 2) + '\t' + str(p_adj) + '\n')
         else:
             pass #maybe printing NA's is a good idea?
+        count += 1
+        if count % 1000 == 0:
+            print [count, line[0:5]]
         
 
 if __name__ == '__main__':
