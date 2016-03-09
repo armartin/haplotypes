@@ -11,6 +11,7 @@ def myround(x, base=2):
 def main(args):
     alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
+    sample = open(args.sample)
     nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
     num_admixed_haps = classes.count('0')
     ref_indices = []
@@ -30,12 +31,23 @@ def main(args):
     
     print boundaries
     print round_bound
+    
+    prefix = args.out
+    a_files = [open(prefix + '_run' + str(i) + '.alleles', 'w') for i in range(len(round_bound)-1)]
+    c_files = [open(prefix + '_run' + str(i) + '.classes', 'w') for i in range(len(round_bound)-1)]
+    f_files = [open(prefix + '_run' + str(i) + '.fam', 'w') for i in range(len(round_bound)-1)]
+    for line in alleles:
+        line = line.strip()
+        for bound in range(len(round_bound)-1): # read through alleles once, write output for each run into separate files
+            [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
+            
 
 #parse arguments
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alleles', required=True) #don't need snp_locations because these should all be the same
     parser.add_argument('--classes', required=True)
+    parser.add_argument('--fam', required=True)
     parser.add_argument('--nsplits', help = 'number of ways the admixed individuals should be split (reference is constant)')
     parser.add_argument('--out')
     
