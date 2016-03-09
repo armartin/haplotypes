@@ -45,12 +45,12 @@ def main(args):
     f_files = [open(prefix + '_run' + str(i) + '.fam', 'w') for i in range(len(round_bound)-1)]
     for bound in range(len(round_bound)-1):
         [c_files[bound].write('0 ') for i in range(round_bound[bound], round_bound[bound+1])]
-        if bound % 2 == 0:
-            [f_files[bound].write(' '.join(inds[i/2]) + '\n') for i in range(round_bound[bound], round_bound[bound+1])] #only do this every other
+        [c_files[bound].write(classes[i] + ' ') for i in ref_indices]
         
-        [c_files[bound].write(classes[i] + ' ') for i in ref_indices] #NEED TO WRITE PROPER CLASSES HERE!!!
-        if bound % 2 == 0:
-            [f_files[bound].write(' '.join(inds[i/2]) + '\n') for i in ref_indices]
+    for bound in range(len(round_bound)-1):
+        [f_files[bound].write(' '.join(inds[i]) + '\n') for i in range(round_bound[bound], round_bound[bound+1], 2)] #only do this every other
+        [f_files[bound].write(' '.join(inds[i]) + '\n') for i in ref_indices[0::2]]
+            
     
     for bound in range(len(round_bound)-1):
         [c_files[bound].close()]
