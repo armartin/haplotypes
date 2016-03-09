@@ -16,7 +16,7 @@ def main(args):
     num_admixed_haps = classes.count('0')
     ref_indices = []
     admixed_indices = []
-    for hap in classes:
+    for hap in range(len(classes)):
         if classes[hap] != '0':
             ref_indices.append(hap)
         else:
