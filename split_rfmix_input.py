@@ -11,7 +11,6 @@ def myround(x, base=2):
 def main(args):
     alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
-    print classes
     nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
     num_admixed_haps = classes.count('0')
     ref_indices = []
@@ -23,9 +22,9 @@ def main(args):
             admixed_indices.append(hap)
     
     print ref_indices
-    print admixed_indices
+    #print admixed_indices
     
-    boundaries = np.linspace(0,len(admixed_indices), step=nsplits)
+    boundaries = np.linspace(0,len(admixed_indices), nsplits)
     #require that an individual (2 haplotypes) are run together
     round_bound = [myround(bound) for bound in boundaries]
     
