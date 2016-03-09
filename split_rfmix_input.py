@@ -15,6 +15,10 @@ def main(args):
         alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
     fam = open(args.fam)
+    inds = []
+    for line in fam:
+        line = line.strip().split()
+        inds.append(line)
     nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
     num_admixed_haps = classes.count('0')
     ref_indices = []
@@ -45,7 +49,13 @@ def main(args):
             [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
             [a_files[bound].write(line[i]) for i in ref_indices]
             a_files[bound].write('\n')
-            
+    for bound in range(len(round_bound)-1):
+        [c_files[bound].write('0 ') for i in range(round_bound[bound], round_bound[bound+1])]
+        [f_files[bound].write(' '.join(inds[i]) + '\n') for i in range(round_bound[bound], round_bound[bound+1])]
+        
+        [c_files[bound].write('1 ') for i in ref_indices]
+        [f_files[bound].write(' '.join(inds[i]) + '\n') for i in ref_indices]
+        
 
 #parse arguments
 if __name__ == '__main__':
