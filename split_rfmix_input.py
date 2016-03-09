@@ -11,6 +11,7 @@ def myround(x, base=2):
 def main(args):
     alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
+    print classes
     nsplits = args.nsplits #note: require that an individual (2 haplotypes) are run together
     num_admixed_haps = classes.count('0')
     ref_indices = []
