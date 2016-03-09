@@ -12,7 +12,7 @@ def main(args):
     alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
     print classes
-    nsplits = int(args.nsplits) #note: require that an individual (2 haplotypes) are run together
+    nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
     num_admixed_haps = classes.count('0')
     ref_indices = []
     admixed_indices = []
@@ -25,7 +25,8 @@ def main(args):
     print ref_indices
     print admixed_indices
     
-    boundaries = np.arange(0,len(admixed_indices), step=nsplits)
+    boundaries = np.linspace(0,len(admixed_indices), step=nsplits)
+    #require that an individual (2 haplotypes) are run together
     round_bound = [myround(bound) for bound in boundaries]
     
     print boundaries
