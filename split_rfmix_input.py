@@ -43,7 +43,7 @@ def main(args):
         line = line.strip()
         for bound in range(len(round_bound)-1): # read through alleles once, write output for each run into separate files
             [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
-            [a_files[bound].write(line[i]) for i in admixed_indices]
+            [a_files[bound].write(line[i]) for i in ref_indices]
             a_files[bound].write('\n')
             
 
