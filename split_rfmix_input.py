@@ -47,12 +47,13 @@ def main(args):
         [c_files[bound].write('0 ') for i in range(round_bound[bound], round_bound[bound+1])]
         [c_files[bound].write(classes[i] + ' ') for i in ref_indices]
         
-    print ref_indices
+    print len(ref_indices)
+    print len(ref_indices[0::2])
     print len(round_bound)
     print len(inds)
     for bound in range(len(round_bound)-1):
         [f_files[bound].write(' '.join(inds[i]) + '\n') for i in range(round_bound[bound], round_bound[bound+1], 2)] #only do this every other
-        [f_files[bound].write(' '.join(inds[i]) + '\n') for i in ref_indices[0::2]]
+        [f_files[bound].write(' '.join(inds[i/2]) + '\n') for i in ref_indices[0::2]]
     
     for bound in range(len(round_bound)-1):
         [c_files[bound].close()]
