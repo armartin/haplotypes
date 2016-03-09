@@ -11,7 +11,7 @@ def myround(x, base=2):
 def main(args):
     alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
-    sample = open(args.sample)
+    fam = open(args.fam)
     nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
     num_admixed_haps = classes.count('0')
     ref_indices = []
