@@ -41,10 +41,10 @@ def main(args):
     f_files = [open(prefix + '_run' + str(i) + '.fam', 'w') for i in range(len(round_bound)-1)]
     for line in alleles:
         line = line.strip()
-        print len(line)
         for bound in range(len(round_bound)-1): # read through alleles once, write output for each run into separate files
-            print [bound, round_bound[bound], round_bound[bound+1]]
             [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
+            [a_files[bound].write(line[i]) for i in admixed_indices]
+            a_files[bound].write('\n')
             
 
 #parse arguments
