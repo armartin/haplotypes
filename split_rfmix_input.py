@@ -43,18 +43,23 @@ def main(args):
     a_files = [open(prefix + '_run' + str(i) + '.alleles', 'w') for i in range(len(round_bound)-1)]
     c_files = [open(prefix + '_run' + str(i) + '.classes', 'w') for i in range(len(round_bound)-1)]
     f_files = [open(prefix + '_run' + str(i) + '.fam', 'w') for i in range(len(round_bound)-1)]
-    for line in alleles:
-        line = line.strip()
-        for bound in range(len(round_bound)-1): # read through alleles once, write output for each run into separate files
-            [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
-            [a_files[bound].write(line[i]) for i in ref_indices]
-            a_files[bound].write('\n')
     for bound in range(len(round_bound)-1):
         [c_files[bound].write('0 ') for i in range(round_bound[bound], round_bound[bound+1])]
         [f_files[bound].write(' '.join(inds[i]) + '\n') for i in range(round_bound[bound], round_bound[bound+1])]
         
         [c_files[bound].write('1 ') for i in ref_indices]
         [f_files[bound].write(' '.join(inds[i]) + '\n') for i in ref_indices]
+    
+    for bound in range(len(round_bound)-1):
+        [c_files[bound].close()]
+        [f_files[bound].close()]
+        
+    for line in alleles:
+        line = line.strip()
+        for bound in range(len(round_bound)-1): # read through alleles once, write output for each run into separate files
+            [a_files[bound].write(line[i]) for i in range(round_bound[bound], round_bound[bound+1])]
+            [a_files[bound].write(line[i]) for i in ref_indices]
+            a_files[bound].write('\n')
         
 
 #parse arguments
