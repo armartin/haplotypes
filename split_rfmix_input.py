@@ -9,7 +9,10 @@ def myround(x, base=2):
 
 #generate output data with admixed set split into groups
 def main(args):
-    alleles = open(args.alleles)
+    if args.alleles.endswith('gz'):
+        alleles = gzip.open(args.alleles)
+    else:
+        alleles = open(args.alleles)
     classes = open(args.classes).readline().strip().split()
     fam = open(args.fam)
     nsplits = int(args.nsplits)+1 #add 1, fence post problem for boundaries
