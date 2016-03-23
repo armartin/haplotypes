@@ -39,7 +39,11 @@ def main(args):
     
     cum_ibd = {}
     pair_dist = {}
+    i=0
     for line in match:
+        i+=1
+        if i%10000:
+            print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
         line = line.strip().split()
         id1 = line[0]
         id2 = line[2]
