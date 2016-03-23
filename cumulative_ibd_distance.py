@@ -41,9 +41,9 @@ def main(args):
         id2 = line[2]
         ind_pairs = tuple(sorted((id1, id2)))
         if ind_pairs in cum_ibd:
-            cum_ibd[ind_pairs] += float(line[11])
+            cum_ibd[ind_pairs] += float(line[10])
         else:
-            cum_ibd[ind_pairs] = float(line[11])
+            cum_ibd[ind_pairs] = float(line[10])
         if id1 in birth_dict and id2 in birth_dict and birth_dict[id1]['Birth.records.avail'] == '1' and birth_dict[id2]['Birth.records.avail'] == '1':
             mun1 = lat_lon_dict[birth_dict[id1]['SKUNTA']]
             ind1 = (float(mun1[lat_lon_header['LAT']]), float(mun1[lat_lon_header['LON']]))
