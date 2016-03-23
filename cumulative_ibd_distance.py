@@ -66,3 +66,4 @@ if __name__ == '__main__':
     parser.add_argument('--out')
     
     args = parser.parse_args()
+    main(args)
