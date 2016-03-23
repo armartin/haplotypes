@@ -26,6 +26,7 @@ def main(args):
     for line in birth_info:
         line = line.strip().split()
         birth_dict[birth_header['ID2']] = line
+    print birth_dict.keys()
     print 'read birth record data [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     lat_lon_dict = {}
     lat_lon_header = {}
