@@ -40,6 +40,7 @@ def main(args):
         id1 = line[0]
         id2 = line[2]
         ind_pairs = sorted([id1, id2])
+        print ind_pairs
         if ind_pairs in cum_ibd:
             cum_ibd[ind_pairs] += float(line[11])
         else:
