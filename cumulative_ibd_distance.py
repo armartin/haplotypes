@@ -13,7 +13,7 @@ def main(args):
     birth_dict - dictionary containing info for every individual
     lat_lon_dict - dictionary containing codes for municipality to lat/lon
     """
-    match = open(args.match)
+    match = gzip.open(args.match)
     birth_info = open(args.birth_info)
     lat_lon = open(args.lat_lon)
     header = birth_info.readline().strip().split(',')
