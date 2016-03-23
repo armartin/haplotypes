@@ -42,8 +42,6 @@ def main(args):
     i=0
     for line in match:
         i+=1
-        if i%10000000 == 0:
-            print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
         line = line.strip().split()
         id1 = line[0]
         id2 = line[2]
@@ -59,6 +57,10 @@ def main(args):
             ind2 = (float(mun2[lat_lon_header['LAT']]), float(mun2[lat_lon_header['LON']]))
             dist = vincenty(ind1, ind2).kilometers
             pair_dist[ind_pairs] = dist
+        if i%10000000 == 0:
+            print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
+            print 'cum_ibd keys: ' + str(len(cum_ibd.keys()))
+            print 'pair_dist keys: ' + str(len(pair_dist.keys()))
     
     print 'start writing [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     out = gzip.open(args.out, 'w')
