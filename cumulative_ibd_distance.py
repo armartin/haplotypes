@@ -25,8 +25,7 @@ def main(args):
     birth_dict = {}
     for line in birth_info:
         line = line.strip().split()
-        birth_dict[birth_header['ID2']] = line
-    print birth_dict.keys()
+        birth_dict[line[birth_header['ID2']]] = line
     print 'read birth record data [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     lat_lon_dict = {}
     lat_lon_header = {}
@@ -35,7 +34,7 @@ def main(args):
         lat_lon_header[header[i]] = i
     for line in lat_lon:
         line = line.strip().split()
-        lat_lon_dict[lat_lon_header['CODE']] = line
+        lat_lon_dict[line[lat_lon_header['CODE']]] = line
     print 'read lat/lon data [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     
     cum_ibd = {}
