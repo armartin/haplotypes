@@ -39,8 +39,7 @@ def main(args):
         line = line.strip().split()
         id1 = line[0]
         id2 = line[2]
-        ind_pairs = sorted([id1, id2])
-        print ind_pairs
+        ind_pairs = tuple(sorted((id1, id2)))
         if ind_pairs in cum_ibd:
             cum_ibd[ind_pairs] += float(line[11])
         else:
