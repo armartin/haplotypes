@@ -58,8 +58,10 @@ def main(args):
     
     out = gzip.open(args.out, 'w')
     for inds in cum_ibd.keys():
-        out.write('\t'.join(inds) + '\t' + pair_dist[inds] + '\n')
-    
+        try:
+            out.write('\t'.join(inds) + '\t' + pair_dist[inds] + '\n')
+        except KeyError:
+            pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
