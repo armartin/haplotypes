@@ -2,6 +2,7 @@ import argparse
 import collections
 from geopy.distance import vincenty
 import gzip
+from datetime import datetime
 
 #calculates the distance between two individuals
 def calculate_distance(ind1, ind2, birth_dict, lat_lon):
@@ -13,6 +14,7 @@ def main(args):
     birth_dict - dictionary containing info for every individual
     lat_lon_dict - dictionary containing codes for municipality to lat/lon
     """
+    print 'starting main [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
     match = gzip.open(args.match)
     birth_info = open(args.birth_info)
     lat_lon = open(args.lat_lon)
@@ -24,6 +26,7 @@ def main(args):
     for line in birth_info:
         line = line.strip().split()
         birth_dict[birth_header['ID2']] = line
+    print 'read birth record data [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
     lat_lon_dict = {}
     lat_lon_header = {}
     header = lat_lon.readline().strip().split()
@@ -32,6 +35,7 @@ def main(args):
     for line in lat_lon:
         line = line.strip().split()
         lat_lon_dict[lat_lon_header['CODE']] = line
+    print 'read lat/lon data [' + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + ']'
     
     cum_ibd = {}
     pair_dist = {}
