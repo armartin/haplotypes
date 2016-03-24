@@ -5,8 +5,13 @@ import gzip
 from datetime import datetime
 
 #calculates the distance between two individuals
-def calculate_distance(ind1, ind2, birth_dict, lat_lon):
-    pass
+def ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind_id):
+    try:
+        mun = lat_lon_dict[birth_dict[ind_id][birth_header['SKUNTA']]]
+        ind = (float(mun[lat_lon_header['LAT']]), float(mun[lat_lon_header['LON']]))
+        return(ind)
+    except KeyError:
+        return 'NA'
 
 def main(args):
     """
@@ -51,16 +56,13 @@ def main(args):
         else:
             cum_ibd[ind_pairs] = float(line[10])
         if id1 in birth_dict and id2 in birth_dict and birth_dict[id1][birth_header['Birth.records.avail']] == '1' and birth_dict[id2][birth_header['Birth.records.avail']] == '1' and ind_pairs not in pair_dist:
-            mun1 = lat_lon_dict[birth_dict[id1][birth_header['SKUNTA']]]
-            ind1 = (float(mun1[lat_lon_header['LAT']]), float(mun1[lat_lon_header['LON']]))
-            try:
-                mun2 = lat_lon_dict[birth_dict[id2][birth_header['SKUNTA']]]
-            except KeyError:
-                print id2
-                print birth_dict[id2]
-            ind2 = (float(mun2[lat_lon_header['LAT']]), float(mun2[lat_lon_header['LON']]))
-            dist = vincenty(ind1, ind2).kilometers
-            pair_dist[ind_pairs] = dist
+            ind1 = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, id1)
+            ind2 = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, id2)
+            #mun2 = lat_lon_dict[birth_dict[id2][birth_header['SKUNTA']]]
+            #ind2 = (float(mun2[lat_lon_header['LAT']]), float(mun2[lat_lon_header['LON']]))
+            if ind1 != 'NA' and ind2 !='NA':
+                dist = vincenty(ind1, ind2).kilometers
+                pair_dist[ind_pairs] = dist
         if i%10000000 == 0:
             print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
             print 'cum_ibd keys: ' + str(len(cum_ibd.keys()))
