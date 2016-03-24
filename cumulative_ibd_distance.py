@@ -72,7 +72,7 @@ def main(args):
     out = gzip.open(args.out, 'w')
     for inds in cum_ibd.keys():
         try:
-            out.write('\t'.join(inds) + '\t' + pair_dist[inds] + '\n')
+            out.write('\t'.join(inds) + '\t' + str(pair_dist[inds]) + '\n')
         except KeyError:
             pass
 
