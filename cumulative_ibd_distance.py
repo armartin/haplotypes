@@ -73,6 +73,10 @@ def main(args):
     for inds in cum_ibd.keys():
         try:
             out.write('\t'.join(inds) + '\t' + str(cum_ibd[inds]) + '\t' + str(pair_dist[inds]) + '\n')
+            if cum_ibd[inds] > 3000:
+                print 'error: '
+                print inds
+                print cum_ibd[inds]
         except KeyError:
             pass
 
