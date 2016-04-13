@@ -36,12 +36,10 @@ def main(args):
     
     ## test
     all_pairs = cum_ibd.keys()
-    print all_pairs[0]
-    print cum_ibd[all_pairs[0]]
-    print
-    print all_pairs[1]
-    print cum_ibd[all_pairs[1]]
-    print
+    out = gzip.open(args.out, 'w')
+    for pair in all_pairs:
+        out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\n')
+    out.close()
 
 
 if __name__ == '__main__':    
