@@ -30,8 +30,9 @@ def main(args):
         line = line.strip().split()
         ind1 = line[1].split('.')[0]
         ind2 = line[3].split('.')[0]
-        ind_pairs = tuple(sorted((ind1, ind2)))
-        cum_ibd[ind_pairs] += float(line[10])
+        if ind1 != ind2:
+            ind_pairs = tuple(sorted((ind1, ind2)))
+            cum_ibd[ind_pairs] += float(line[10])
     
     ## test
     all_pairs = cum_ibd.keys()
