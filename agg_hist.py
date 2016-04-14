@@ -1,5 +1,6 @@
 import argparse
 import collections
+import re
 
 parser = argparse.ArgumentParser(description='Parse some args')
 parser.add_argument('--hist_files')
@@ -14,7 +15,7 @@ my_range = range(1,102)
 for line in hist_files:
     line = line.strip()
     my_file = open(line)
-    chr = my_file.readline().strip()
+    chr = re.search('chr(\d+)', line).group(0)
     my_file.readline()
     min_max = my_file.readline().strip()
     if 'outside' in min_max:
