@@ -21,6 +21,8 @@ for line in hist_files:
     if 'outside' in min_max:
         outside = int(min_max.split()[1])
         my_file.readline()
+    else:
+        outside = 0
     for line_count in my_file:
         line_count = line_count.strip().split()
         start = int(float(line_count[0]))
