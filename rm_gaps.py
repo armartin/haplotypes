@@ -3,19 +3,20 @@ import gzip
 
 def open_file(filename):
     if filename.endswith('gz'):
-        gzip.open(filename)
+        my_file = gzip.open(filename)
     else:
-        open(filename)
+        my_file = open(filename)
+    return my_file
     
 def main(args):
-    gap = open_file(args.gaps)
+    gaps = open_file(args.gaps)
     match = open_file(args.match)
     out = gzip.open(args.out, 'w')
     
-    gap.readline()
+    gaps.readline()
     gap_starts = {}
     gap_ends = {}
-    for line in gap:
+    for line in gaps:
         line = line.strip().split()
         if line[1] in gap_starts:
             gap_starts.append(int(line[2]))
@@ -42,6 +43,4 @@ if __name__ == '__main__':
     parser.add_argument('--out', required=True)
     
     args = parser.parse_args()
-    print args
-    print args.gaps
     main(args)
