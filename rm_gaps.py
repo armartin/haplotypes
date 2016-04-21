@@ -27,10 +27,11 @@ def main(args):
     
     for line in match:
         line = line.strip().split()
+        chr = line[4]
         start = line[5]
         end = line[6]
-        for gap in range(len(gap_starts)):
-            if start > gap_starts[gap] and start < gap_ends[gap] or end > gap_starts[gap] and end < gap_ends[gap]:
+        for gap in range(len(gap_starts[chr])):
+            if start > gap_starts[chr][gap] and start < gap_ends[chr][gap] or end > gap_starts[chr][gap] and end < gap_ends[chr][gap]:
                 pass
             else:
                 out.write('\t'.join(line) + '\n')
