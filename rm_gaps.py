@@ -19,11 +19,11 @@ def main(args):
     for line in gaps:
         line = line.strip().split()
         if line[1] in gap_starts:
-            gap_starts.append(int(line[2]))
-            gap_ends.append(int(line[3]))
+            gap_starts[line[1]].append(int(line[2]))
+            gap_ends[line[1]].append(int(line[3]))
         else:
-            gap_starts = [int(line[2])]
-            gap_ends = [int(line[3])]
+            gap_starts[line[1]] = [int(line[2])]
+            gap_ends[line[1]] = [int(line[3])]
     
     for line in match:
         line = line.strip().split()
@@ -33,7 +33,7 @@ def main(args):
             if start > gap_starts[gap] and start < gap_ends[gap] or end > gap_starts[gap] and end < gap_ends[gap]:
                 pass
             else:
-                out.write('\t'.join(line))
+                out.write('\t'.join(line) + '\n')
     out.close()
 
 if __name__ == '__main__':    
