@@ -37,7 +37,7 @@ def main(args):
 
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gaps', required=True, default='/home/unix/armartin/finrisk/haplotypes/b37_gaps.txt')
+    parser.add_argument('--gaps', default='/home/unix/armartin/finrisk/haplotypes/b37_gaps.txt')
     parser.add_argument('--match', required=True)
     parser.add_argument('--out', required=True)
     
