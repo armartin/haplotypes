@@ -8,7 +8,7 @@ def open_file(filename):
         open(filename)
     
 def main(args):
-    gap = open_file(args.gap)
+    gap = open_file(args.gaps)
     match = open_file(args.match)
     out = gzip.open(args.out, 'w')
     
