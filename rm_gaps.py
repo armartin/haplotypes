@@ -32,7 +32,7 @@ def main(args):
         end = line[6]
         for gap in range(len(gap_starts[chr])):
             if start > gap_starts[chr][gap] and start < gap_ends[chr][gap] or end > gap_starts[chr][gap] and end < gap_ends[chr][gap] or start < gap_starts[chr][gap] and end > gap_starts[chr][gap]:
-                pass
+                continue
             else:
                 out.write('\t'.join(line) + '\n')
     out.close()
