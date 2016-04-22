@@ -27,9 +27,9 @@ def main(args):
     
     for line in match:
         line = line.strip().split()
-        chr = line[4]
-        start = line[5]
-        end = line[6]
+        chr = int(line[4])
+        start = int(line[5])
+        end = int(line[6])
         in_gap = False
         for gap in range(len(gap_starts[chr])):
             if start > gap_starts[chr][gap] and start < gap_ends[chr][gap] or end > gap_starts[chr][gap] and end < gap_ends[chr][gap] or start < gap_starts[chr][gap] and end > gap_starts[chr][gap]:
