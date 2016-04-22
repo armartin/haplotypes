@@ -30,11 +30,13 @@ def main(args):
         chr = line[4]
         start = line[5]
         end = line[6]
+        in_gap = False
         for gap in range(len(gap_starts[chr])):
             if start > gap_starts[chr][gap] and start < gap_ends[chr][gap] or end > gap_starts[chr][gap] and end < gap_ends[chr][gap] or start < gap_starts[chr][gap] and end > gap_starts[chr][gap]:
+                in_gap = True
                 continue
-            else:
-                out.write('\t'.join(line) + '\n')
+        if not in_gap:
+            out.write('\t'.join(line) + '\n')
     out.close()
 
 if __name__ == '__main__':    
