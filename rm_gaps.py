@@ -27,7 +27,7 @@ def main(args):
     
     for line in match:
         line = line.strip().split()
-        chr = int(line[4])
+        chr = line[4]
         start = int(line[5])
         end = int(line[6])
         in_gap = False
