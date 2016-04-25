@@ -74,8 +74,8 @@ def main(args):
             all_ibd[ind_pairs].append(float(line[10]))
             if args.birth is not None and args.lat_lon is not None:
                 pair_dist = {}
-                ind1_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, id1)
-                ind2_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, id2)
+                ind1_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind1)
+                ind2_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind2)
                 if ind1_loc != 'NA' and ind2_loc !='NA':
                     dist = vincenty(ind1_loc, ind2_loc).kilometers
                     pair_dist[ind_pairs] = dist
