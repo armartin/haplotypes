@@ -21,6 +21,7 @@ def main(args):
         match = open(args.match)
     
     ## first, make sure all pairs are represented
+    print 'Getting all pairs ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     sample = open(args.sample)
     sample.readline()
     sample.readline()
@@ -40,6 +41,7 @@ def main(args):
     
     ## add birth locs where possible
     if args.birth is not None and args.lat_lon is not None:
+        print 'Adding birth locations ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
         birth = open(args.birth)
         header = birth.readline().strip().split(',')
         birth_header = {}
@@ -65,6 +67,7 @@ def main(args):
     for line in match:
         if i%10000000 == 0:
             print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
+        i+=1
         line = line.strip().split()
         ind1 = line[1].split('.')[0]
         ind2 = line[3].split('.')[0]
@@ -81,6 +84,7 @@ def main(args):
                     pair_dist[ind_pairs] = dist
     
     ## write cumulative IBD
+    print 'Writing output ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
     all_pairs = cum_ibd.keys()
     out = gzip.open(args.out, 'w')
     for pair in all_pairs:
