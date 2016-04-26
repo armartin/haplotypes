@@ -90,11 +90,11 @@ def main(args):
     for pair in all_pairs:
         if args.birth is not None:
             if pair in pair_dist:
-                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\n')
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\n')
             else:
-                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\n')
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\n')
         else:
-            out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\n')
+            out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\n')
     out.close()
 
 
