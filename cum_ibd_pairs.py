@@ -64,6 +64,7 @@ def main(args):
     
     ## next, count cumulative IBD sharing across pairs and distance between them
     i=0
+    pair_dist = {}
     for line in match:
         if i%10000000 == 0:
             print 'line ' + str(i) + ' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
@@ -76,7 +77,6 @@ def main(args):
             cum_ibd[ind_pairs] += float(line[10])
             all_ibd[ind_pairs].append(float(line[10]))
             if args.birth is not None and args.lat_lon is not None:
-                pair_dist = {}
                 ind1_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind1)
                 ind2_loc = ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind2)
                 if ind1_loc != 'NA' and ind2_loc !='NA':
