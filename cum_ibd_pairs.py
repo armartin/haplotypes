@@ -89,9 +89,10 @@ def main(args):
     out = gzip.open(args.out, 'w')
     for pair in all_pairs:
         if args.birth is not None:
-            dist = vincenty(pair[0], pair[1]).kilometers
-            pair_dist[ind_pairs] = dist
-            out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\n')
+            if pair in pair_dist:
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\n')
+            else:
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\n')
         else:
             out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' ','.join(map(str, sorted(all_ibd[pair]))) + '\n')
     out.close()
