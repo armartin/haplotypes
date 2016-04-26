@@ -82,6 +82,9 @@ def main(args):
                 if ind1_loc != 'NA' and ind2_loc !='NA':
                     dist = vincenty(ind1_loc, ind2_loc).kilometers
                     pair_dist[ind_pairs] = dist
+                    if i%10000000 == 0:
+                        print ind_pairs
+                        print pair_dist[ind_pairs]
     
     ## write cumulative IBD
     print 'Writing output [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
