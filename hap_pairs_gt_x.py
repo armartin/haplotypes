@@ -17,7 +17,7 @@ def main(args):
     for line in cum_pairs:
         num_pairs += 1
         line = line.strip().split()
-        hap_sizes = sorted(map(float, line[3]))
+        hap_sizes = sorted(map(float, line[3].split(',')))
         for b in hist_bins:
             hist_bins[b] += sum(i > b for i in hap_sizes)
         print num_pairs
