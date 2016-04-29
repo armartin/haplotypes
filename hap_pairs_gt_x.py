@@ -27,7 +27,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--cum_pairs', default='/home/unix/armartin/finrisk/haplotypes/b37_gaps.txt')
-    parser.add_argument('--out', required=True)
+    parser.add_argument('--out')
     
     args = parser.parse_args()
     main(args)
