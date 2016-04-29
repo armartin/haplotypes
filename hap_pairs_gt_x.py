@@ -21,9 +21,12 @@ def main(args):
             break
         num_pairs += 1
         line = line.strip().split()
-        hap_sizes = sorted(map(float, line[3].split(',')))
-        for b in hist_bins:
-            hist_bins[b] += sum(i > b for i in hap_sizes)
+        try:
+            hap_sizes = sorted(map(float, line[3].split(',')))
+            for b in hist_bins:
+                hist_bins[b] += sum(i > b for i in hap_sizes)
+        except ValueError:
+            continue
         print num_pairs
         print hist_bins
         
