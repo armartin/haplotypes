@@ -14,7 +14,11 @@ def main(args):
     hist_bins = {}
     for b in bins:
         hist_bins[b] = 0
+    j=0
     for line in cum_pairs:
+        j+=1
+        if j==10000:
+            break
         num_pairs += 1
         line = line.strip().split()
         hap_sizes = sorted(map(float, line[3].split(',')))
@@ -23,6 +27,10 @@ def main(args):
         print num_pairs
         print hist_bins
         
+    out = open(args.out, 'w')
+    for b in bins:
+        out.write('\t'.join(map(str, [b, hist_bins[b]])) + '\n')
+    out.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
