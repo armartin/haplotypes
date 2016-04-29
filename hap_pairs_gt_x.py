@@ -27,14 +27,12 @@ def main(args):
                 hist_bins[b] += sum(i > b for i in hap_sizes)
         except ValueError:
             continue
-        print num_pairs
-        print hist_bins
     
-    hist_bins = {b: hist_bins[b]/num_pairs for b in hist_bins}
+    hist_bins = {b: float(hist_bins[b])/num_pairs for b in hist_bins}
     
     out = open(args.out, 'w')
     for b in bins:
-        out.write('\t'.join(map(str, [b, hist_bins[b]])) + '\n')
+        out.write('\t'.join(map(str, [round(b, 1), hist_bins[b]])) + '\n')
     out.close()
 
 if __name__ == '__main__':
