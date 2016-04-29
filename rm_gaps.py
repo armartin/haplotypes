@@ -1,3 +1,7 @@
+"""
+Takes in a bed-like file with genome gaps and a germline match file. Filters out haplotypes that end in or span a genomic gap
+"""
+
 import argparse
 import gzip
 
