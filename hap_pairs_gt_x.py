@@ -14,11 +14,7 @@ def main(args):
     hist_bins = {}
     for b in bins:
         hist_bins[b] = 0
-    j=0
     for line in cum_pairs:
-        j+=1
-        if j==10000:
-            break
         num_pairs += 1
         line = line.strip().split()
         try:
