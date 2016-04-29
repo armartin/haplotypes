@@ -29,7 +29,9 @@ def main(args):
             continue
         print num_pairs
         print hist_bins
-        
+    
+    hist_bins = {b: hist_bins[b]/num_pairs for b in hist_bins}
+    
     out = open(args.out, 'w')
     for b in bins:
         out.write('\t'.join(map(str, [b, hist_bins[b]])) + '\n')
