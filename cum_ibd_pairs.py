@@ -97,7 +97,7 @@ def main(args):
                 out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\t' +
                           birth_dict[pair[0]][birth_header['SKUNTA_LAAN']] + '\t' + birth_dict[pair[1]][birth_header['SKUNTA_LAAN']] + '\n')
             else:
-                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\n')
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\tNA\tNA\n')
         else:
             out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\n')
     out.close()
