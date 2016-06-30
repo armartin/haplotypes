@@ -9,6 +9,7 @@ from geopy.distance import vincenty
 def ind_loc(lat_lon_dict, lat_lon_header, birth_dict, birth_header, ind_id):
     try:
         mun = lat_lon_dict[birth_dict[ind_id][birth_header['SKUNTA']]]
+        #reg = lat_lon_dict[birth_dict[ind_id][birth_header['SKUNTA_LAAN']]]
         ind = (float(mun[lat_lon_header['LAT']]), float(mun[lat_lon_header['LON']]))
         return(ind)
     except KeyError:
@@ -93,7 +94,8 @@ def main(args):
     for pair in all_pairs:
         if args.birth is not None:
             if pair in pair_dist:
-                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\n')
+                out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\t' + str(pair_dist[pair]) + '\t' +
+                          birth_dict[pair[0]][birth_header['SKUNTA_LAAN']] + '\t' + birth_dict[pair[1]][birth_header['SKUNTA_LAAN']] + '\n')
             else:
                 out.write(pair[0] + '\t' + pair[1] + '\t' + str(cum_ibd[pair]) + '\t' + ','.join(map(str, sorted(all_ibd[pair]))) + '\tNA\n')
         else:
