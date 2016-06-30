@@ -22,11 +22,11 @@ def main(args):
     
     ## first, make sure all pairs are represented
     print 'Getting all pairs [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']'
-    sample = open(args.sample)
-    sample.readline()
-    sample.readline()
+    inds = open(args.inds)
+    #inds.readline()
+    #inds.readline()
     samples = []
-    for line in sample:
+    for line in inds:
         line = line.strip().split()
         samples.append(line[1])
     
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     
     parser.add_argument('--match')
-    parser.add_argument('--sample')
+    parser.add_argument('--inds')
     parser.add_argument('--birth')
     parser.add_argument('--lat_lon')
     parser.add_argument('--out')
