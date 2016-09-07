@@ -39,7 +39,7 @@ def main(args):
         line = line.strip().split()
         if line[0].startswith('##'):
             pass
-        elif line.startswith('#CHROM'):
+        elif line[0].startswith('#CHROM'):
             vcf_header = header_dict[line]
             for i in line[9:len(line)]:
                 vcf_inds.add(i)
