@@ -54,9 +54,9 @@ def main(args):
             snp_id = '_'.join([line[vcf_header['#CHROM']], line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             snp_order.append(snp_id)
             if line[vcf_header['#CHROM']] in chr_snps:
-                chr_snps[line[vcf_header['#CHROM']]].append(line[vcf_header['POS']])
+                chr_snps[line[vcf_header['#CHROM']]].append([line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             else:
-                chr_snps[line[vcf_header['#CHROM']]] = [line[vcf_header['POS']]]
+                chr_snps[line[vcf_header['#CHROM']]] = [line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]]
             [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in range(9, len(header_order)):
                 try:
@@ -87,7 +87,7 @@ def main(args):
                 ind1 = geno_exome[ind1]
                 ind2 = geno_exome[ind2]
                 for pos in chr_snps[chrom]:
-                    snp_id = chrom + '_' + '_'.join(map(str, chr_snps[chrom]))
+                    snp_id = chrom + '_' + '_'.join(map(str, pos))
                     if pos >= int(line[5]) and pos <= int(line[6]):
                         # need to check if inds share snp
                         if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
