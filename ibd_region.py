@@ -44,7 +44,7 @@ def main(args):
             for i in line[9:len(line)]:
                 vcf_inds.add(i)
         else:
-            snp_id = '_'.join(line[vcf_header['#CHROM']], line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']])
+            snp_id = '_'.join([line[vcf_header['#CHROM']], line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             snp_order.append(snp_id)
             chr_snps[line[vcf_header['#CHROM']]] = [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in line[9:len(line)]:
