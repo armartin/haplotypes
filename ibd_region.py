@@ -31,24 +31,26 @@ def main(args):
     
     # read vcf info
     vcf = open_file(args.vcf)
-    vcf_dict = defaultdict(dict)
+    vcf_dict = defaultdict(dict) # pos -> ind -> geno
     snp_order = [] # store order to print snps in
     chr_snps = {} # only go through each chromosome haps once
     vcf_inds = set()
+    header_order = []
     for line in vcf:
         line = line.strip().split()
         if line[0].startswith('##'):
             pass
         elif line[0].startswith('#CHROM'):
             vcf_header = header_dict(line)
-            for i in line[9:len(line)]:
+            for i in line:
                 vcf_inds.add(i)
+                header_order.append(i)
         else:
             snp_id = '_'.join([line[vcf_header['#CHROM']], line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             snp_order.append(snp_id)
             chr_snps[line[vcf_header['#CHROM']]] = [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
-            for ind in line[9:len(line)]:
-                vcf_dict[snp_id][ind] = ind.split(':')[0] #store genotypes for every pos and individual
+            for ind in range(9, len(header_order)):
+                vcf_dict[snp_id][header_order[ind]] = line.split(':')[0] #store genotypes for every pos and individual
                 
     # read all haplotype info
     snp_tot = defaultdict(dict) # pos -> geno -> sorted pairs
@@ -75,17 +77,16 @@ def main(args):
                                 snp_num[snp_id][vcf_dict[snp_id][ind1]] = 1
                                 snp_len[snp_id][vcf_dict[snp_id][ind1]] = [line[10]]
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
-                    try:
-                        if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
-                            if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
-                                snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(sorted([ind1, ind2]))
-                            else:
-                                snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
-                    except KeyError:
-                        print snp_id
-                        print vcf_dict[snp_id].keys()
-                        print vcf_dict.keys()
-                        break
+                    if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
+                        if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(sorted([ind1, ind2]))
+                        else:
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
+                    #except KeyError:
+                    #    print snp_id
+                    #    print vcf_dict[snp_id].keys()
+                    #    print vcf_dict.keys()
+                    #    break
                 
     out = gzip.open(args.out, 'w')
     out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']))
