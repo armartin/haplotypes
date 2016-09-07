@@ -37,12 +37,13 @@ def main(args):
     vcf_inds = set()
     header_order = []
     for line in vcf:
-        line = line.strip().split()
+        line = line.strip().split('\t')
         if line[0].startswith('##'):
             pass
         elif line[0].startswith('#CHROM'):
             vcf_header = header_dict(line)
             for i in line:
+                i = re.sub(' ', '_', i)
                 vcf_inds.add(i)
                 header_order.append(i)
         else:
