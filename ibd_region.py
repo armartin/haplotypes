@@ -55,7 +55,7 @@ def main(args):
     snp_num = defaultdict(dict) # pos -> geno -> num pairs
     snp_len = defaultdict(dict) # pos -> geno -> lengths list
     for chrom in chr_snps:
-        haps = open_file('chr\d', 'chr' + chrom, args.haps)
+        haps = open_file(re.sub('chr\d', 'chr' + chrom, args.haps))
         for line in haps:
             line = line.strip().split()
             ind1 = line[1].split('.')[0]
