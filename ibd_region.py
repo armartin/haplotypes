@@ -51,9 +51,9 @@ def main(args):
                 vcf_dict[snp_id][ind] = ind.split(':')[0] #store genotypes for every pos and individual
                 
     # read all haplotype info
-    snp_tot = default_dict(dict) # pos -> geno -> sorted pairs
-    snp_num = default_dict(dict) # pos -> geno -> num pairs
-    snp_len = default_dict(dict) # pos -> geno -> lengths list
+    snp_tot = defaultdict(dict) # pos -> geno -> sorted pairs
+    snp_num = defaultdict(dict) # pos -> geno -> num pairs
+    snp_len = defaultdict(dict) # pos -> geno -> lengths list
     for chrom in chr_snps:
         haps = open_file('chr\d', 'chr' + chrom, args.haps)
         for line in haps:
