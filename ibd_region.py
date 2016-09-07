@@ -56,7 +56,7 @@ def main(args):
             if line[vcf_header['#CHROM']] in chr_snps:
                 chr_snps[line[vcf_header['#CHROM']]].append([line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             else:
-                chr_snps[line[vcf_header['#CHROM']]] = [line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]]
+                chr_snps[line[vcf_header['#CHROM']]] = [[line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]]]
             [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in range(9, len(header_order)):
                 try:
