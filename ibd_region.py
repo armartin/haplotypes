@@ -6,6 +6,10 @@ import argparse
 import gzip
 from collections import defaultdict
 import re
+from datetime import datetime
+
+def current_time():
+    return(' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']')
 
 def open_file(filename):
     if filename.endswith('gz'):
@@ -66,7 +70,11 @@ def main(args):
     snp_len = defaultdict(dict) # pos -> geno -> lengths list
     for chrom in chr_snps:
         haps = open_file(re.sub(r'chr\d+', 'chr' + chrom, args.haps))
+        count = 0
         for line in haps:
+            if not count % 10000:
+                print str(count) + current_time()
+            count += 1
             line = line.strip().split()
             ind1 = line[1].split('.')[0]
             ind2 = line[3].split('.')[0]
