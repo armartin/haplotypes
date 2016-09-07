@@ -62,7 +62,7 @@ def main(args):
             ind2 = line[3].split('.')[0]
             if geno_exome[ind1] in vcf_inds and geno_exome[ind2] in vcf_inds:
                 for pos in chr_snps[chrom]:
-                    snp_id = chrom + '_' + '_'.join(chr_snps[chrom])
+                    snp_id = chrom + '_' + '_'.join(map(str, chr_snps[chrom]))
                     if pos >= int(line[5]) and pos <= int(line[6]):
                         # need to check if inds share snp
                         if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
