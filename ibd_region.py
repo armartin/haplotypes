@@ -83,7 +83,7 @@ def main(args):
                                 snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
                     except KeyError:
                         print snp_id
-                        print vcf_dict[snp_id][0:10]
+                        print vcf_dict[snp_id].keys()
                         print vcf_dict.keys()
                         break
                 
