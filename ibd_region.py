@@ -68,6 +68,7 @@ def main(args):
     snp_tot = defaultdict(dict) # pos -> geno -> sorted pairs
     snp_num = defaultdict(dict) # pos -> geno -> num pairs
     snp_len = defaultdict(dict) # pos -> geno -> lengths list
+    print chr_snps
     for chrom in chr_snps:
         haps = open_file(re.sub(r'chr\d+', 'chr' + chrom, args.haps))
         count = 0
