@@ -83,7 +83,9 @@ def main(args):
                                 snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
                     except KeyError:
                         print snp_id
+                        print vcf_dict[snp_id][0:10]
                         print vcf_dict.keys()
+                        break
                 
     out = gzip.open(args.out, 'w')
     out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']))
