@@ -50,7 +50,12 @@ def main(args):
             snp_order.append(snp_id)
             chr_snps[line[vcf_header['#CHROM']]] = [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in range(9, len(header_order)):
-                vcf_dict[snp_id][header_order[ind]] = line[ind].split(':')[0] #store genotypes for every pos and individual
+                try:
+                    vcf_dict[snp_id][header_order[ind]] = line[ind].split(':')[0] #store genotypes for every pos and individual
+                except IndexError:
+                    print snp_id
+                    print header_order[ind]
+                    print line[ind]
                 
     # read all haplotype info
     snp_tot = defaultdict(dict) # pos -> geno -> sorted pairs
