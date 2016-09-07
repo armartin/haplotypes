@@ -97,6 +97,7 @@ def main(args):
                             else:
                                 snp_num[snp_id][vcf_dict[snp_id][ind1]] = 1
                                 snp_len[snp_id][vcf_dict[snp_id][ind1]] = [line[10]]
+                            print snp_len[snp_id][vcf_dict[snp_id][ind1]]
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
                     if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
                         if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
