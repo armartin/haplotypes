@@ -89,7 +89,7 @@ def main(args):
                         if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
                             snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(sorted([ind1, ind2]))
                         else:
-                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(sorted([ind1, ind2]))
                     #except KeyError:
                     #    print snp_id
                     #    print vcf_dict[snp_id].keys()
