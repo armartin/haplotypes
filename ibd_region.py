@@ -88,7 +88,7 @@ def main(args):
                 ind2 = geno_exome[ind2]
                 for pos in chr_snps[chrom]:
                     snp_id = chrom + '_' + '_'.join(map(str, pos))
-                    if pos >= int(line[5]) and pos <= int(line[6]):
+                    if int(pos[0]) >= int(line[5]) and int(pos[0]) <= int(line[6]):
                         # need to check if inds share snp
                         if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
                             if snp_id in snp_num and vcf_dict[snp_id][ind1] in snp_num[snp_id]:
@@ -100,9 +100,9 @@ def main(args):
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
                     if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
                         if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
-                            snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(tuple(sorted([ind1, ind2])))
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(tuple(sorted([ind1, ind2]))) #these can be the same ind
                         else:
-                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(tuple(sorted([ind1, ind2])))
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(tuple(sorted([ind1, ind2]))) #these can be the same ind
                     #except KeyError:
                     #    print snp_id
                     #    print vcf_dict[snp_id].keys()
