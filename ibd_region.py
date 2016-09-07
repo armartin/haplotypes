@@ -53,7 +53,11 @@ def main(args):
         else:
             snp_id = '_'.join([line[vcf_header['#CHROM']], line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]])
             snp_order.append(snp_id)
-            chr_snps[line[vcf_header['#CHROM']]] = [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
+            if line[vcf_header['#CHROM']] in chr_snps:
+                chr_snps[line[vcf_header['#CHROM']]].append(line[vcf_header['POS']])
+            else:
+                chr_snps[line[vcf_header['#CHROM']]] = [line[vcf_header['POS']]]
+            [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in range(9, len(header_order)):
                 try:
                     vcf_dict[snp_id][header_order[ind]] = line[ind].split(':')[0] #store genotypes for every pos and individual
