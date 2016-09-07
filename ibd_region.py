@@ -117,6 +117,8 @@ def main(args):
         print snp_tot[snp].keys()
         print snp_num[snp].keys()
         print snp_len[snp].keys()
+        print snp_tot
+        print snp_num
         for geno in possible_genos:
             if geno in snp_tot[snp]:
                 out.write(str(len(snp_tot[snp][geno])) + '\t')
