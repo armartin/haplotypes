@@ -65,16 +65,16 @@ def main(args):
                     snp_id = chrom + '_' + '_'.join(map(str, chr_snps[chrom]))
                     if pos >= int(line[5]) and pos <= int(line[6]):
                         # need to check if inds share snp
-                        if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
-                            if snp_id in snp_num and vcf_dict[snp_id][ind1] in snp_num[snp_id]:
-                                snp_num[snp_id][vcf_dict[snp_id][ind1]] += 1
-                                snp_len[snp_id][vcf_dict[snp_id][ind1]].append(line[10])
+                        if vcf_dict[snp_id][geno_exome[ind1]] == vcf_dict[snp_id][geno_exome[ind2]]:
+                            if snp_id in snp_num and vcf_dict[snp_id][geno_exome[ind1]] in snp_num[snp_id]:
+                                snp_num[snp_id][vcf_dict[snp_id][geno_exome[ind1]]] += 1
+                                snp_len[snp_id][vcf_dict[snp_id][geno_exome[ind1]]].append(line[10])
                             else:
-                                snp_num[snp_id][vcf_dict[snp_id][ind1]] = 1
-                                snp_len[snp_id][vcf_dict[snp_id][ind1]] = [line[10]]
+                                snp_num[snp_id][vcf_dict[snp_id][geno_exome[ind1]]] = 1
+                                snp_len[snp_id][vcf_dict[snp_id][geno_exome[ind1]]] = [line[10]]
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
-                    if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
-                        if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
+                    if vcf_dict[snp_id][geno_exome[ind1]] == vcf_dict[snp_id][geno_exome[ind2]]:
+                        if snp_id in snp_tot and vcf_dict[snp_id][geno_exome[ind1]] in snp_tot[snp_id]:
                             snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(sorted([ind1, ind2]))
                         else:
                             snp_tot[snp_id][vcf_dict[snp_id][ind1]] = sorted([ind1, ind2])
