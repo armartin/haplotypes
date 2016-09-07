@@ -105,23 +105,23 @@ def main(args):
                     #    break
                 
     out = gzip.open(args.out, 'w')
-    out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']))
+    out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']) + '\n')
     possible_genos = ['0/0', '0/1', '1/1']
     for snp in snp_order:
         out.write('\t'.join(snp.split('_')) + '\t')
         for geno in possible_genos:
-            if geno in snp_tot:
-                out.write(str(len(snp_tot[geno])) + '\t')
+            if geno in snp_tot[snp]:
+                out.write(str(len(snp_tot[snp][geno])) + '\t')
             else:
                 out.write('0\t')
         for geno in possible_genos:
             if geno in snp_num[snp]:
-                out.write(str(snp_num[geno]) + '\t')
+                out.write(str(snp_num[snp][geno]) + '\t')
             else:
                 out.write('0\t')
         for geno in possible_genos:
             if geno in snp_len[snp]:
-                out.write(str(snp_num[geno]) + '\t')
+                out.write(str(snp_num[snp][geno]) + '\t')
             else:
                 out.write('0\t')
         out.write('\n')
