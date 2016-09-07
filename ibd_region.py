@@ -114,6 +114,9 @@ def main(args):
     possible_genos = ['0/0', '0/1', '1/1']
     for snp in snp_order:
         out.write('\t'.join(snp.split('_')) + '\t')
+        print snp_tot[snp].keys()
+        print snp_num[snp].keys()
+        print snp_len[snp].keys()
         for geno in possible_genos:
             if geno in snp_tot[snp]:
                 out.write(str(len(snp_tot[snp][geno])) + '\t')
