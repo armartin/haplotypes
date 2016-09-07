@@ -130,9 +130,9 @@ def main(args):
                 out.write('0\t')
         for geno in possible_genos:
             if geno in snp_len[snp]:
-                out.write(str(snp_num[snp][geno]) + '\t')
+                out.write(','.join(str(snp_len[snp][geno])) + '\t')
             else:
-                out.write('0\t')
+                out.write('NA\t')
         out.write('\n')
     # print overlapping inds present
     # print number of pairwise haps shared between inds
