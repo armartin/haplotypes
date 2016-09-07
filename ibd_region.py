@@ -72,7 +72,7 @@ def main(args):
         haps = open_file(re.sub(r'chr\d+', 'chr' + chrom, args.haps))
         count = 0
         for line in haps:
-            if not count % 10000:
+            if not count % 1000000:
                 print str(count) + current_time()
             count += 1
             line = line.strip().split()
