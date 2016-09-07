@@ -87,9 +87,9 @@ def main(args):
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
                     if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
                         if snp_id in snp_tot and vcf_dict[snp_id][ind1] in snp_tot[snp_id]:
-                            snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(sorted([ind1, ind2]))
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(tuple(sorted([ind1, ind2])))
                         else:
-                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(sorted([ind1, ind2]))
+                            snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(tuple(sorted([ind1, ind2])))
                     #except KeyError:
                     #    print snp_id
                     #    print vcf_dict[snp_id].keys()
