@@ -55,6 +55,8 @@ def main(args):
                 except IndexError:
                     print snp_id
                     print header_order[ind]
+                    print len(header_order)
+                    print len(line)
                     print line[ind]
                 
     # read all haplotype info
