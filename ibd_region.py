@@ -125,7 +125,7 @@ def main(args):
                 out.write('0\t')
         for geno in possible_genos:
             if geno in snp_num[snp]:
-                out.write(str(snp_num[snp][geno]) + '\t')
+                out.write(str(len(snp_num[snp][geno])) + '\t')
             else:
                 out.write('0\t')
         for geno in possible_genos:
