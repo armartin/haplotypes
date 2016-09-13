@@ -92,10 +92,10 @@ def main(args):
                         # need to check if inds share snp
                         if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
                             if snp_id in snp_num and vcf_dict[snp_id][ind1] in snp_num[snp_id]:
-                                snp_num[snp_id][vcf_dict[snp_id][ind1]] += 1
+                                snp_num[snp_id][vcf_dict[snp_id][ind1]].append(set(tuple(sorted([ind1, ind2])))) ##+= 1 ##
                                 snp_len[snp_id][vcf_dict[snp_id][ind1]].append(line[10])
                             else:
-                                snp_num[snp_id][vcf_dict[snp_id][ind1]] = 1
+                                snp_num[snp_id][vcf_dict[snp_id][ind1]] = set(tuple(sorted([ind1, ind2]))) ##1
                                 snp_len[snp_id][vcf_dict[snp_id][ind1]] = [line[10]]
                     ###NOTE: this won't work in non-Finns where it's not guaranteed that some individuals won't share haplotypes
                     if vcf_dict[snp_id][ind1] == vcf_dict[snp_id][ind2]:
