@@ -46,7 +46,7 @@ set.seed(42)
 #most_ibd <- map_fit$grid[which(map_fit$fit==max(map_fit$fit)),]
 cum_ibd$dist_highest1 <- distCosine(cbind(cum_ibd$lon1, cum_ibd$lat1), my_point)
 cum_ibd$dist_highest2 <- distCosine(cbind(cum_ibd$lon2, cum_ibd$lat2), my_point)
-cum_ibd_highest <- subset(cum_ibd, dist_highest1 < 80000 | dist_highest2 < 80000) #get only pairs where at least 1 individual is within 80 km
+cum_ibd_highest <- subset(cum_ibd, dist_highest1 < 50000 | dist_highest2 < 50000) #get only pairs where at least 1 individual is within 80 km
 #helsinki: 1,348,177
 #random: 158,617
 #igloo: 3985
@@ -75,7 +75,7 @@ date(); high_ibd_fit <- modgam(cum_ibd_highest[,c('cum_ibd_mb', 'max_lon', 'max_
 # generate fitted map of finland
 png(paste0('point', args$point_num, '.png'), height=837, width=450, res=90, type='cairo')
 colormap(high_ibd_fit, suomi, axes=T, col=colorRampPalette(rev(brewer.pal(9, 'YlOrBr'))), leglab='Cumulative IBD (Mb)', xlab='test', mar=c(8,5,5,3))#, mapmin=28.4, mapmax=118) #map needs to be produced from maps or maptools
-points(my_point, pch=16, cex=3)
+points(my_point, pch=4, cex=3)
 mtext(paste0("Point ", args$point_num), 3, line=2.5, font=2, cex=1.5)
 dev.off()
 
