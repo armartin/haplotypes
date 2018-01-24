@@ -8,8 +8,10 @@ from collections import defaultdict
 import re
 from datetime import datetime
 
+
 def current_time():
     return(' [' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ']')
+
 
 def open_file(filename):
     if filename.endswith('gz'):
@@ -18,28 +20,32 @@ def open_file(filename):
         my_file = open(filename)
     return my_file
 
+
 def header_dict(my_header):
     header = dict(zip(my_header, range(len(my_header))))
     return(header)
 
+
 def main(args):
     # read all ind info
     ind_info = open_file(args.ind_info)
-    info_header = {}
     header = ind_info.readline().strip().split(',')
     header = header_dict(header)
     geno_exome = {}
     for line in ind_info:
         line = line.strip().split(',')
         geno_exome[line[header['ID2']]] = line[header['exome_id']]
-    
+    exomes_intersect = set(geno_exome.values())
+
     # read vcf info
     vcf = open_file(args.vcf)
-    vcf_dict = defaultdict(dict) # pos -> ind -> geno
-    snp_order = [] # store order to print snps in
-    chr_snps = {} # only go through each chromosome haps once
-    vcf_inds = set()
+    vcf_dict = defaultdict(dict)  # pos -> ind -> geno
+    snp_count = defaultdict(dict)  # pos -> geno -> ind
+    snp_order = []  # store order to print snps in
+    chr_snps = {}  # only go through each chromosome haps once
+    vcf_inds = set()  # this lists everyone in the VCF
     header_order = []
+    print 'Reading VCF' + current_time()
     for line in vcf:
         line = line.strip().split('\t')
         if line[0].startswith('##'):
@@ -47,7 +53,7 @@ def main(args):
         elif line[0].startswith('#CHROM'):
             vcf_header = header_dict(line)
             for i in line:
-                i = re.sub(' ', '_', i)
+                i = re.sub(' ', '_', i)  # deal with fucking spaces in IDs
                 vcf_inds.add(i)
                 header_order.append(i)
         else:
@@ -59,19 +65,20 @@ def main(args):
                 chr_snps[line[vcf_header['#CHROM']]] = [[line[vcf_header['POS']], line[vcf_header['REF']], line[vcf_header['ALT']]]]
             [int(line[vcf_header['POS']]), line[vcf_header['REF']], line[vcf_header['ALT']]]
             for ind in range(9, len(header_order)):
-                try:
-                    vcf_dict[snp_id][header_order[ind]] = line[ind].split(':')[0] #store genotypes for every pos and individual
-                except IndexError:
-                    print snp_id
-                    print header_order[ind]
-                    print len(header_order)
-                    print len(line)
-                    print line[ind]
-                
+                # store genotypes for every pos and individual
+                vcf_dict[snp_id][header_order[ind]] = line[ind].split(':')[0]
+                if snp_id in snp_count and line[ind].split(':')[0] in snp_count[snp_id] and header_order[ind] in exomes_intersect:
+                    snp_count[snp_id][line[ind].split(':')[0]].append(header_order[ind])
+                elif header_order[ind] in exomes_intersect:
+                    snp_count[snp_id][line[ind].split(':')[0]] = [header_order[ind]]
+            print snp_count[snp_id].keys()
+            for geno in snp_count[snp_id].keys():
+                print len(snp_count[snp_id][geno])
+
     # read all haplotype info
-    snp_tot = defaultdict(dict) # pos -> geno -> sorted pairs
-    snp_num = defaultdict(dict) # pos -> geno -> num pairs
-    snp_len = defaultdict(dict) # pos -> geno -> lengths list
+    snp_tot = defaultdict(dict)  # pos -> geno -> sorted pairs
+    snp_num = defaultdict(dict)  # pos -> geno -> num pairs
+    snp_len = defaultdict(dict)  # pos -> geno -> lengths list
     print chr_snps
     for chrom in chr_snps:
         haps = open_file(re.sub(r'chr\d+', 'chr' + chrom, args.haps))
@@ -84,8 +91,8 @@ def main(args):
             ind1 = line[1].split('.')[0]
             ind2 = line[3].split('.')[0]
             if geno_exome[ind1] in vcf_inds and geno_exome[ind2] in vcf_inds:
-                ind1 = geno_exome[ind1]
-                ind2 = geno_exome[ind2]
+                ind1 = geno_exome[ind1]  # convert IDs, ADDED
+                ind2 = geno_exome[ind2]  # convert IDs, ADDED
                 for pos in chr_snps[chrom]:
                     snp_id = chrom + '_' + '_'.join(map(str, pos))
                     if int(pos[0]) >= int(line[5]) and int(pos[0]) <= int(line[6]):
@@ -103,14 +110,14 @@ def main(args):
                             snp_tot[snp_id][vcf_dict[snp_id][ind1]].add(tuple(sorted([ind1, ind2]))) #these can be the same ind
                         else:
                             snp_tot[snp_id][vcf_dict[snp_id][ind1]] = set(tuple(sorted([ind1, ind2]))) #these can be the same ind
-                    #except KeyError:
-                    #    print snp_id
-                    #    print vcf_dict[snp_id].keys()
-                    #    print vcf_dict.keys()
-                    #    break
-                
+                        # except KeyError:
+                        #     print snp_id
+                        #     print vcf_dict[snp_id].keys()
+                        #     print vcf_dict.keys()
+                        #     break
+
     out = gzip.open(args.out, 'w')
-    out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']) + '\n')
+    out.write('\t'.join(['chr', 'pos', 'ref', 'alt', 'r_tot', 'h_tot', 'a_tot', 'rr_tot', 'hh_tot', 'aa_tot', 'rr_haps', 'hh_haps', 'aa_haps', 'rr_len', 'hh_len', 'aa_len']) + '\n')
     possible_genos = ['0/0', '0/1', '1/1']
     for snp in snp_order:
         out.write('\t'.join(snp.split('_')) + '\t')
@@ -118,6 +125,11 @@ def main(args):
         print snp_num[snp].keys()
         print snp_len[snp].keys()
         #print snp_num
+        for geno in possible_genos:
+            if geno in snp_count[snp]:
+                out.write(str(len(snp_count[snp][geno])) + '\t')
+            else:
+                out.write('0\t')
         for geno in possible_genos:
             if geno in snp_tot[snp]:
                 out.write(str(len(snp_tot[snp][geno])) + '\t')
